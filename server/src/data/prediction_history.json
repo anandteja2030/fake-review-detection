@@ -1,0 +1,1872 @@
+[
+  {
+    "id": "h_4ta7ihl8",
+    "text": "Amazing product! Highly recommended. Excellent quality and best purchase ever!",
+    "rating": 5,
+    "prediction": "genuine",
+    "probabilities": {
+      "fake": 0.10580039299253685,
+      "suspicious": 0,
+      "genuine": 0.8941996070074631
+    },
+    "trustScore": 89,
+    "riskLevel": "low",
+    "confidence": 0.8941996070074631,
+    "sentimentLabel": "positive",
+    "ratingSentimentGap": 0,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-10T08:40:56.220Z"
+  },
+  {
+    "id": "h_2zcx3byx",
+    "text": "The product arrived on time. The quality is good, it works as described, and I am satisfied with my purchase.",
+    "rating": 3,
+    "prediction": "fake",
+    "probabilities": {
+      "fake": 0.8818276111134639,
+      "suspicious": 0,
+      "genuine": 0.11817238888653614
+    },
+    "trustScore": 12,
+    "riskLevel": "high",
+    "confidence": 0.8818276111134639,
+    "sentimentLabel": "positive",
+    "ratingSentimentGap": 1,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-10T08:55:59.682Z"
+  },
+  {
+    "id": "h_6jrbmvr2",
+    "text": "The product arrived on time. The quality is good, it works as described, and I am satisfied with my purchase.",
+    "rating": 4,
+    "prediction": "fake",
+    "probabilities": {
+      "fake": 0.7840149116884562,
+      "suspicious": 0,
+      "genuine": 0.21598508831154384
+    },
+    "trustScore": 22,
+    "riskLevel": "high",
+    "confidence": 0.7840149116884562,
+    "sentimentLabel": "positive",
+    "ratingSentimentGap": 0.5,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-10T08:59:37.855Z"
+  },
+  {
+    "id": "h_snj5uliq",
+    "text": "Terrible product, it broke after one day and support ignored my messages completely.",
+    "rating": 1,
+    "prediction": "genuine",
+    "probabilities": {
+      "fake": 0.018215469317577983,
+      "suspicious": 0,
+      "genuine": 0.981784530682422
+    },
+    "trustScore": 98,
+    "riskLevel": "low",
+    "confidence": 0.981784530682422,
+    "sentimentLabel": "negative",
+    "ratingSentimentGap": 1,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-10T09:32:31.694Z"
+  },
+  {
+    "id": "h_95447a180098",
+    "batchId": "b_4181b21144",
+    "entryRef": "e4",
+    "text": "The sound quality is good for the price, and the battery lasts around two days with regular use. They are comfortable for music, but the microphone could be clearer during calls.",
+    "rating": 3,
+    "productName": "Wireless Headphones",
+    "productCategory": "Electronics",
+    "prediction": "genuine",
+    "probabilities": {
+      "fake": 0.3445253572591795,
+      "genuine": 0.6554746427408205
+    },
+    "trustScore": 66,
+    "riskLevel": "low",
+    "confidence": 0.6554746427408205,
+    "sentimentLabel": "positive",
+    "ratingSentimentGap": 1,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-13T08:50:38.935Z"
+  },
+  {
+    "id": "h_9b05c39ef661",
+    "batchId": "b_f536befcc6",
+    "entryRef": "e5",
+    "text": "AMAZING SERUM!!! BEST PRODUCT EVER!!! My skin is PERFECT after one use. EVERYONE MUST BUY THIS RIGHT NOW!!! Unbelievable results and the greatest product in the world!!!",
+    "rating": 3,
+    "productName": "Vitamin C Face Serum",
+    "productCategory": "Face Creams and Serums",
+    "prediction": "genuine",
+    "probabilities": {
+      "fake": 0.022446569577753976,
+      "genuine": 0.9775534304222461
+    },
+    "trustScore": 98,
+    "riskLevel": "low",
+    "confidence": 0.9775534304222461,
+    "sentimentLabel": "positive",
+    "ratingSentimentGap": 1,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-13T08:51:35.921Z"
+  },
+  {
+    "id": "h_e6916f4ff98c",
+    "batchId": "b_c9384d9a92",
+    "entryRef": "e6",
+    "text": "The speaker stopped charging after four days. The sound was acceptable at low volume, but it distorted when turned up. Customer support has not responded to my message yet.",
+    "rating": 1,
+    "productName": "Bluetooth Speaker",
+    "productCategory": "Electronics",
+    "prediction": "genuine",
+    "probabilities": {
+      "fake": 0.012712595543930299,
+      "genuine": 0.9872874044560697
+    },
+    "trustScore": 99,
+    "riskLevel": "low",
+    "confidence": 0.9872874044560697,
+    "sentimentLabel": "negative",
+    "ratingSentimentGap": 1,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-13T08:53:10.369Z"
+  },
+  {
+    "id": "h_56dee44bf280",
+    "batchId": "b_65afee4846",
+    "entryRef": "e4",
+    "text": "bhanu is handsome guy",
+    "rating": 4,
+    "productName": null,
+    "productCategory": "Beauty and Skincare",
+    "prediction": "fake",
+    "probabilities": {
+      "fake": 0.8047054614517968,
+      "genuine": 0.19529453854820322
+    },
+    "trustScore": 20,
+    "riskLevel": "high",
+    "confidence": 0.8047054614517968,
+    "evidence": {
+      "version": 1,
+      "reviewText": "bhanu is handsome guy",
+      "threshold": 0.47375,
+      "topEvidence": [
+        {
+          "id": "decision",
+          "category": "model",
+          "label": "Stacking ensemble verdict: FAKE",
+          "detail": "P(fake) = 0.8047 vs decision threshold 0.4738 -> FAKE (confidence 0.8047)."
+        },
+        {
+          "id": "base-learners",
+          "category": "model",
+          "label": "Base-learner Fake probabilities (1/3 above 0.5)",
+          "detail": "Logistic Regression 0.9991 · XGBoost 0.1310 · LightGBM 0.3155 feed the stacking meta-model."
+        },
+        {
+          "id": "rating-sentiment",
+          "category": "measured",
+          "label": "Sentiment 0.4939 vs 4★ rating (gap 0.2652)",
+          "detail": "VADER compound sentiment of this text against the submitted star rating - the model's rating_sent_gap input feature."
+        },
+        {
+          "id": "reference-similarity",
+          "category": "measured",
+          "label": "Reference similarity 0.3173",
+          "detail": "Max cosine similarity between this review's SBERT embedding and 3000 stored reference reviews."
+        },
+        {
+          "id": "short-text",
+          "category": "measured",
+          "label": "Short review (short_flag = 1)",
+          "detail": "Only 4 token(s) after cleaning; the model's short_flag input feature is 1."
+        },
+        {
+          "id": "attribution",
+          "category": "attribution",
+          "label": "Term-ablation attribution unavailable",
+          "detail": "This review contains no promotional matches and no repeated words, so there are no candidate terms to ablate."
+        }
+      ],
+      "suspiciousWords": [],
+      "measuredSignals": [
+        {
+          "key": "review_length",
+          "label": "Review length",
+          "value": 4,
+          "unit": "words",
+          "description": "Word count of the cleaned text - the model's review_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "char_length",
+          "label": "Character length",
+          "value": 21,
+          "unit": "chars",
+          "description": "Character count of the submitted text - the model's char_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "repetition_ratio",
+          "label": "Repetition ratio",
+          "value": 0,
+          "unit": "ratio",
+          "description": "Occurrences beyond each word's first use, divided by total words - the model's repetition_ratio input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sentiment",
+          "label": "Sentiment (VADER compound)",
+          "value": 0.4939,
+          "unit": "compound",
+          "description": "VADER compound sentiment of the cleaned text, from -1 (most negative) to +1 (most positive) - the model's sentiment input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "promo_score",
+          "label": "Promotional keyword score",
+          "value": 0,
+          "unit": "keywords",
+          "description": "Number of PROMO_KEYWORDS matched in the cleaned text - the model's promo_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "rating_sent_gap",
+          "label": "Rating-sentiment gap",
+          "value": 0.26525,
+          "unit": "gap",
+          "description": "abs(rating - ((sentiment + 1) * 2.5)) - mismatch between the star rating and VADER sentiment, the model's rating_sent_gap input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "avg_word_length",
+          "label": "Average word length",
+          "value": 4.5,
+          "unit": "chars",
+          "description": "Mean word length of the cleaned text - the model's avg_word_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "short_flag",
+          "label": "Short-review flag",
+          "value": 1,
+          "unit": "0 or 1",
+          "description": "1 when the cleaned text has fewer than 5 words, else 0 - the model's short_flag input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sim_score",
+          "label": "Reference similarity",
+          "value": 0.31730274030412114,
+          "unit": "cosine",
+          "description": "Maximum cosine similarity between this review's SBERT embedding and the 3000 stored reference review embeddings - the model's sim_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        }
+      ],
+      "explanationSummary": "The model classified this 4-token review as FAKE (P(fake)=0.8047 against a decision threshold of 0.4738). No keywords from the promotional list appear in this text (promo_score = 0). No word repeats beyond first occurrences were detected in this text. Sentiment-rating relationship: VADER compound 0.4939 with a 4★ rating (gap 0.2652, a model input). Similarity to the stored reference reviews: 0.3173. Term-ablation attribution is unavailable for this review: This review contains no promotional matches and no repeated words, so there are no candidate terms to ablate. These are measured model inputs and perturbation sensitivities - they document what was computed for this review, not proof of deception and not causal attribution.",
+      "limitations": [
+        "Measured signals are inputs to the model and diagnostics on the text; they do not establish why the ensemble produced its verdict.",
+        "Term-ablation attribution is a perturbation sensitivity measurement on this trained model - not SHAP, not LIME, and not a causal claim.",
+        "The classifier detects statistical patterns in wording; it cannot verify whether any individual review is genuinely deceptive."
+      ],
+      "attribution": {
+        "method": null,
+        "status": "unavailable",
+        "description": "Term-ablation sensitivity: each listed term is deleted from the submitted review text and the full model pipeline is re-run. deltaFakeProbability = P(fake | original text) - P(fake | term removed); a positive value means the term moved THIS model's output toward Fake for THIS review. This is a perturbation measurement, NOT SHAP or LIME, and not a causal claim that the term proves deception.",
+        "unavailableReason": "This review contains no promotional matches and no repeated words, so there are no candidate terms to ablate.",
+        "terms": [],
+        "partialFailures": null
+      }
+    },
+    "sentimentLabel": "neutral",
+    "ratingSentimentGap": 0.5,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-13T09:16:15.160Z"
+  },
+  {
+    "id": "h_0b8f7cf6d081",
+    "batchId": "b_a43afd17d4",
+    "entryRef": "e6",
+    "text": "anand is handsome guy",
+    "rating": 4,
+    "productName": null,
+    "productCategory": "Beauty and Skincare",
+    "prediction": "fake",
+    "probabilities": {
+      "fake": 0.8479524685236145,
+      "genuine": 0.1520475314763855
+    },
+    "trustScore": 15,
+    "riskLevel": "high",
+    "confidence": 0.8479524685236145,
+    "evidence": {
+      "version": 1,
+      "reviewText": "anand is handsome guy",
+      "threshold": 0.47375,
+      "topEvidence": [
+        {
+          "id": "decision",
+          "category": "model",
+          "label": "Stacking ensemble verdict: FAKE",
+          "detail": "P(fake) = 0.8480 vs decision threshold 0.4738 -> FAKE (confidence 0.8480)."
+        },
+        {
+          "id": "base-learners",
+          "category": "model",
+          "label": "Base-learner Fake probabilities (1/3 above 0.5)",
+          "detail": "Logistic Regression 0.9991 · XGBoost 0.2834 · LightGBM 0.3815 feed the stacking meta-model."
+        },
+        {
+          "id": "rating-sentiment",
+          "category": "measured",
+          "label": "Sentiment 0.4939 vs 4★ rating (gap 0.2652)",
+          "detail": "VADER compound sentiment of this text against the submitted star rating - the model's rating_sent_gap input feature."
+        },
+        {
+          "id": "reference-similarity",
+          "category": "measured",
+          "label": "Reference similarity 0.3040",
+          "detail": "Max cosine similarity between this review's SBERT embedding and 3000 stored reference reviews."
+        },
+        {
+          "id": "short-text",
+          "category": "measured",
+          "label": "Short review (short_flag = 1)",
+          "detail": "Only 4 token(s) after cleaning; the model's short_flag input feature is 1."
+        },
+        {
+          "id": "attribution",
+          "category": "attribution",
+          "label": "Term-ablation attribution unavailable",
+          "detail": "This review contains no promotional matches and no repeated words, so there are no candidate terms to ablate."
+        }
+      ],
+      "suspiciousWords": [],
+      "measuredSignals": [
+        {
+          "key": "review_length",
+          "label": "Review length",
+          "value": 4,
+          "unit": "words",
+          "description": "Word count of the cleaned text - the model's review_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "char_length",
+          "label": "Character length",
+          "value": 21,
+          "unit": "chars",
+          "description": "Character count of the submitted text - the model's char_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "repetition_ratio",
+          "label": "Repetition ratio",
+          "value": 0,
+          "unit": "ratio",
+          "description": "Occurrences beyond each word's first use, divided by total words - the model's repetition_ratio input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sentiment",
+          "label": "Sentiment (VADER compound)",
+          "value": 0.4939,
+          "unit": "compound",
+          "description": "VADER compound sentiment of the cleaned text, from -1 (most negative) to +1 (most positive) - the model's sentiment input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "promo_score",
+          "label": "Promotional keyword score",
+          "value": 0,
+          "unit": "keywords",
+          "description": "Number of PROMO_KEYWORDS matched in the cleaned text - the model's promo_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "rating_sent_gap",
+          "label": "Rating-sentiment gap",
+          "value": 0.26525,
+          "unit": "gap",
+          "description": "abs(rating - ((sentiment + 1) * 2.5)) - mismatch between the star rating and VADER sentiment, the model's rating_sent_gap input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "avg_word_length",
+          "label": "Average word length",
+          "value": 4.5,
+          "unit": "chars",
+          "description": "Mean word length of the cleaned text - the model's avg_word_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "short_flag",
+          "label": "Short-review flag",
+          "value": 1,
+          "unit": "0 or 1",
+          "description": "1 when the cleaned text has fewer than 5 words, else 0 - the model's short_flag input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sim_score",
+          "label": "Reference similarity",
+          "value": 0.3040060571688544,
+          "unit": "cosine",
+          "description": "Maximum cosine similarity between this review's SBERT embedding and the 3000 stored reference review embeddings - the model's sim_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        }
+      ],
+      "explanationSummary": "The model classified this 4-token review as FAKE (P(fake)=0.8480 against a decision threshold of 0.4738). No keywords from the promotional list appear in this text (promo_score = 0). No word repeats beyond first occurrences were detected in this text. Sentiment-rating relationship: VADER compound 0.4939 with a 4★ rating (gap 0.2652, a model input). Similarity to the stored reference reviews: 0.3040. Term-ablation attribution is unavailable for this review: This review contains no promotional matches and no repeated words, so there are no candidate terms to ablate. These are measured model inputs and perturbation sensitivities - they document what was computed for this review, not proof of deception and not causal attribution.",
+      "limitations": [
+        "Measured signals are inputs to the model and diagnostics on the text; they do not establish why the ensemble produced its verdict.",
+        "Term-ablation attribution is a perturbation sensitivity measurement on this trained model - not SHAP, not LIME, and not a causal claim.",
+        "The classifier detects statistical patterns in wording; it cannot verify whether any individual review is genuinely deceptive."
+      ],
+      "attribution": {
+        "method": null,
+        "status": "unavailable",
+        "description": "Term-ablation sensitivity: each listed term is deleted from the submitted review text and the full model pipeline is re-run. deltaFakeProbability = P(fake | original text) - P(fake | term removed); a positive value means the term moved THIS model's output toward Fake for THIS review. This is a perturbation measurement, NOT SHAP or LIME, and not a causal claim that the term proves deception.",
+        "unavailableReason": "This review contains no promotional matches and no repeated words, so there are no candidate terms to ablate.",
+        "terms": [],
+        "partialFailures": null
+      }
+    },
+    "sentimentLabel": "neutral",
+    "ratingSentimentGap": 0.5,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-13T09:16:47.819Z"
+  },
+  {
+    "id": "h_37a74c826382",
+    "batchId": "b_bc9b562a2d",
+    "entryRef": "e6",
+    "text": "asus laptop is best",
+    "rating": 4,
+    "productName": null,
+    "productCategory": "Computers and Laptops",
+    "prediction": "fake",
+    "probabilities": {
+      "fake": 0.8986408869491614,
+      "genuine": 0.10135911305083856
+    },
+    "trustScore": 10,
+    "riskLevel": "high",
+    "confidence": 0.8986408869491614,
+    "evidence": {
+      "version": 1,
+      "reviewText": "asus laptop is best",
+      "threshold": 0.47375,
+      "topEvidence": [
+        {
+          "id": "decision",
+          "category": "model",
+          "label": "Stacking ensemble verdict: FAKE",
+          "detail": "P(fake) = 0.8986 vs decision threshold 0.4738 -> FAKE (confidence 0.8986)."
+        },
+        {
+          "id": "base-learners",
+          "category": "model",
+          "label": "Base-learner Fake probabilities (2/3 above 0.5)",
+          "detail": "Logistic Regression 0.9999 · XGBoost 0.3507 · LightGBM 0.5526 feed the stacking meta-model."
+        },
+        {
+          "id": "promo-language",
+          "category": "measured",
+          "label": "1 promotional term(s) matched in this review",
+          "detail": "Matches: 'best' - feeds the promo_score input feature. Matching promotional wording is not proof of deception."
+        },
+        {
+          "id": "rating-sentiment",
+          "category": "measured",
+          "label": "Sentiment 0.6369 vs 4★ rating (gap 0.0922)",
+          "detail": "VADER compound sentiment of this text against the submitted star rating - the model's rating_sent_gap input feature."
+        },
+        {
+          "id": "reference-similarity",
+          "category": "measured",
+          "label": "Reference similarity 0.5828",
+          "detail": "Max cosine similarity between this review's SBERT embedding and 3000 stored reference reviews."
+        },
+        {
+          "id": "short-text",
+          "category": "measured",
+          "label": "Short review (short_flag = 1)",
+          "detail": "Only 4 token(s) after cleaning; the model's short_flag input feature is 1."
+        },
+        {
+          "id": "attribution:best",
+          "category": "attribution",
+          "label": "Ablating 'best' changed P(fake) by -0.0181",
+          "detail": "P(fake) 0.8986 -> 0.9167 when the term is removed."
+        }
+      ],
+      "suspiciousWords": [
+        {
+          "word": "best",
+          "count": 1,
+          "reason": "promotional keyword from the model's PROMO_KEYWORDS list - presence counts once toward the promo_score input feature"
+        }
+      ],
+      "measuredSignals": [
+        {
+          "key": "review_length",
+          "label": "Review length",
+          "value": 4,
+          "unit": "words",
+          "description": "Word count of the cleaned text - the model's review_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "char_length",
+          "label": "Character length",
+          "value": 19,
+          "unit": "chars",
+          "description": "Character count of the submitted text - the model's char_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "repetition_ratio",
+          "label": "Repetition ratio",
+          "value": 0,
+          "unit": "ratio",
+          "description": "Occurrences beyond each word's first use, divided by total words - the model's repetition_ratio input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sentiment",
+          "label": "Sentiment (VADER compound)",
+          "value": 0.6369,
+          "unit": "compound",
+          "description": "VADER compound sentiment of the cleaned text, from -1 (most negative) to +1 (most positive) - the model's sentiment input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "promo_score",
+          "label": "Promotional keyword score",
+          "value": 1,
+          "unit": "keywords",
+          "description": "Number of PROMO_KEYWORDS matched in the cleaned text - the model's promo_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "rating_sent_gap",
+          "label": "Rating-sentiment gap",
+          "value": 0.09224999999999994,
+          "unit": "gap",
+          "description": "abs(rating - ((sentiment + 1) * 2.5)) - mismatch between the star rating and VADER sentiment, the model's rating_sent_gap input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "avg_word_length",
+          "label": "Average word length",
+          "value": 4,
+          "unit": "chars",
+          "description": "Mean word length of the cleaned text - the model's avg_word_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "short_flag",
+          "label": "Short-review flag",
+          "value": 1,
+          "unit": "0 or 1",
+          "description": "1 when the cleaned text has fewer than 5 words, else 0 - the model's short_flag input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sim_score",
+          "label": "Reference similarity",
+          "value": 0.5828147686148324,
+          "unit": "cosine",
+          "description": "Maximum cosine similarity between this review's SBERT embedding and the 3000 stored reference review embeddings - the model's sim_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        }
+      ],
+      "explanationSummary": "The model classified this 4-token review as FAKE (P(fake)=0.8986 against a decision threshold of 0.4738). Measured promotional language: 'best' (1 match(es) feeding promo_score). No word repeats beyond first occurrences were detected in this text. Sentiment-rating relationship: VADER compound 0.6369 with a 4★ rating (gap 0.0922, a model input). Similarity to the stored reference reviews: 0.5828. Term-ablation perturbation evaluated 1 term(s); largest effect: 'best' (ΔP(fake) = -0.0181). These are measured model inputs and perturbation sensitivities - they document what was computed for this review, not proof of deception and not causal attribution.",
+      "limitations": [
+        "Measured signals are inputs to the model and diagnostics on the text; they do not establish why the ensemble produced its verdict.",
+        "Term-ablation attribution is a perturbation sensitivity measurement on this trained model - not SHAP, not LIME, and not a causal claim.",
+        "The classifier detects statistical patterns in wording; it cannot verify whether any individual review is genuinely deceptive."
+      ],
+      "attribution": {
+        "method": "term-ablation-perturbation",
+        "status": "available",
+        "description": "Term-ablation sensitivity: each listed term is deleted from the submitted review text and the full model pipeline is re-run. deltaFakeProbability = P(fake | original text) - P(fake | term removed); a positive value means the term moved THIS model's output toward Fake for THIS review. This is a perturbation measurement, NOT SHAP or LIME, and not a causal claim that the term proves deception.",
+        "unavailableReason": null,
+        "terms": [
+          {
+            "term": "best",
+            "pFakeOriginal": 0.8986408869491614,
+            "pFakeWithoutTerm": 0.9166944552499476,
+            "deltaFakeProbability": -0.018053568300786194,
+            "labelWithoutTerm": "fake",
+            "wouldChangeLabel": false
+          }
+        ],
+        "partialFailures": null
+      }
+    },
+    "sentimentLabel": "positive",
+    "ratingSentimentGap": 0.5,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-13T09:17:10.967Z"
+  },
+  {
+    "id": "h_d60aab890c13",
+    "batchId": "b_c22e1949f2",
+    "entryRef": "e6",
+    "text": "i have been using this laptop for 1 year it is very good",
+    "rating": 4,
+    "productName": null,
+    "productCategory": "Computers and Laptops",
+    "prediction": "fake",
+    "probabilities": {
+      "fake": 0.9679925920504364,
+      "genuine": 0.03200740794956358
+    },
+    "trustScore": 3,
+    "riskLevel": "high",
+    "confidence": 0.9679925920504364,
+    "evidence": {
+      "version": 1,
+      "reviewText": "i have been using this laptop for 1 year it is very good",
+      "threshold": 0.47375,
+      "topEvidence": [
+        {
+          "id": "decision",
+          "category": "model",
+          "label": "Stacking ensemble verdict: FAKE",
+          "detail": "P(fake) = 0.9680 vs decision threshold 0.4738 -> FAKE (confidence 0.9680)."
+        },
+        {
+          "id": "base-learners",
+          "category": "model",
+          "label": "Base-learner Fake probabilities (3/3 above 0.5)",
+          "detail": "Logistic Regression 0.9803 · XGBoost 0.9194 · LightGBM 0.8847 feed the stacking meta-model."
+        },
+        {
+          "id": "rating-sentiment",
+          "category": "measured",
+          "label": "Sentiment 0.4927 vs 4★ rating (gap 0.2682)",
+          "detail": "VADER compound sentiment of this text against the submitted star rating - the model's rating_sent_gap input feature."
+        },
+        {
+          "id": "reference-similarity",
+          "category": "measured",
+          "label": "Reference similarity 0.7200",
+          "detail": "Max cosine similarity between this review's SBERT embedding and 3000 stored reference reviews."
+        },
+        {
+          "id": "attribution",
+          "category": "attribution",
+          "label": "Term-ablation attribution unavailable",
+          "detail": "This review contains no promotional matches and no repeated words, so there are no candidate terms to ablate."
+        }
+      ],
+      "suspiciousWords": [],
+      "measuredSignals": [
+        {
+          "key": "review_length",
+          "label": "Review length",
+          "value": 13,
+          "unit": "words",
+          "description": "Word count of the cleaned text - the model's review_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "char_length",
+          "label": "Character length",
+          "value": 56,
+          "unit": "chars",
+          "description": "Character count of the submitted text - the model's char_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "repetition_ratio",
+          "label": "Repetition ratio",
+          "value": 0,
+          "unit": "ratio",
+          "description": "Occurrences beyond each word's first use, divided by total words - the model's repetition_ratio input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sentiment",
+          "label": "Sentiment (VADER compound)",
+          "value": 0.4927,
+          "unit": "compound",
+          "description": "VADER compound sentiment of the cleaned text, from -1 (most negative) to +1 (most positive) - the model's sentiment input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "promo_score",
+          "label": "Promotional keyword score",
+          "value": 0,
+          "unit": "keywords",
+          "description": "Number of PROMO_KEYWORDS matched in the cleaned text - the model's promo_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "rating_sent_gap",
+          "label": "Rating-sentiment gap",
+          "value": 0.26824999999999966,
+          "unit": "gap",
+          "description": "abs(rating - ((sentiment + 1) * 2.5)) - mismatch between the star rating and VADER sentiment, the model's rating_sent_gap input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "avg_word_length",
+          "label": "Average word length",
+          "value": 3.3846153846153846,
+          "unit": "chars",
+          "description": "Mean word length of the cleaned text - the model's avg_word_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "short_flag",
+          "label": "Short-review flag",
+          "value": 0,
+          "unit": "0 or 1",
+          "description": "1 when the cleaned text has fewer than 5 words, else 0 - the model's short_flag input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sim_score",
+          "label": "Reference similarity",
+          "value": 0.7199971095896092,
+          "unit": "cosine",
+          "description": "Maximum cosine similarity between this review's SBERT embedding and the 3000 stored reference review embeddings - the model's sim_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        }
+      ],
+      "explanationSummary": "The model classified this 13-token review as FAKE (P(fake)=0.9680 against a decision threshold of 0.4738). No keywords from the promotional list appear in this text (promo_score = 0). No word repeats beyond first occurrences were detected in this text. Sentiment-rating relationship: VADER compound 0.4927 with a 4★ rating (gap 0.2682, a model input). Similarity to the stored reference reviews: 0.7200. Term-ablation attribution is unavailable for this review: This review contains no promotional matches and no repeated words, so there are no candidate terms to ablate. These are measured model inputs and perturbation sensitivities - they document what was computed for this review, not proof of deception and not causal attribution.",
+      "limitations": [
+        "Measured signals are inputs to the model and diagnostics on the text; they do not establish why the ensemble produced its verdict.",
+        "Term-ablation attribution is a perturbation sensitivity measurement on this trained model - not SHAP, not LIME, and not a causal claim.",
+        "The classifier detects statistical patterns in wording; it cannot verify whether any individual review is genuinely deceptive."
+      ],
+      "attribution": {
+        "method": null,
+        "status": "unavailable",
+        "description": "Term-ablation sensitivity: each listed term is deleted from the submitted review text and the full model pipeline is re-run. deltaFakeProbability = P(fake | original text) - P(fake | term removed); a positive value means the term moved THIS model's output toward Fake for THIS review. This is a perturbation measurement, NOT SHAP or LIME, and not a causal claim that the term proves deception.",
+        "unavailableReason": "This review contains no promotional matches and no repeated words, so there are no candidate terms to ablate.",
+        "terms": [],
+        "partialFailures": null
+      }
+    },
+    "sentimentLabel": "positive",
+    "ratingSentimentGap": 0.5,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-13T09:17:43.036Z"
+  },
+  {
+    "id": "h_958dff255184",
+    "batchId": "b_731bf044fb",
+    "entryRef": "e10",
+    "text": "Really happy with this suitcase. The colour is beautiful, it looks sturdy and spacious and the wheels move smoothly. The finish is neat and premium looking. Definitely a great buy for the price!",
+    "rating": 5,
+    "productName": null,
+    "productCategory": "Other",
+    "prediction": "fake",
+    "probabilities": {
+      "fake": 0.5567264588983534,
+      "genuine": 0.44327354110164663
+    },
+    "trustScore": 44,
+    "riskLevel": "high",
+    "confidence": 0.5567264588983534,
+    "evidence": {
+      "version": 1,
+      "reviewText": "Really happy with this suitcase. The colour is beautiful, it looks sturdy and spacious and the wheels move smoothly. The finish is neat and premium looking. Definitely a great buy for the price!",
+      "threshold": 0.47375,
+      "topEvidence": [
+        {
+          "id": "decision",
+          "category": "model",
+          "label": "Stacking ensemble verdict: FAKE",
+          "detail": "P(fake) = 0.5567 vs decision threshold 0.4738 -> FAKE (confidence 0.5567)."
+        },
+        {
+          "id": "base-learners",
+          "category": "model",
+          "label": "Base-learner Fake probabilities (1/3 above 0.5)",
+          "detail": "Logistic Regression 0.6682 · XGBoost 0.3978 · LightGBM 0.4156 feed the stacking meta-model."
+        },
+        {
+          "id": "promo-language",
+          "category": "measured",
+          "label": "1 promotional term(s) matched in this review",
+          "detail": "Matches: 'buy' - feeds the promo_score input feature. Matching promotional wording is not proof of deception."
+        },
+        {
+          "id": "repetition",
+          "category": "measured",
+          "label": "Repetition ratio 0.1818",
+          "detail": "Repeated: 'the' ×4, 'and' ×3, 'is' ×2 - feeds the repetition_ratio input feature."
+        },
+        {
+          "id": "rating-sentiment",
+          "category": "measured",
+          "label": "Sentiment 0.9583 vs 5★ rating (gap 0.1043)",
+          "detail": "VADER compound sentiment of this text against the submitted star rating - the model's rating_sent_gap input feature."
+        },
+        {
+          "id": "reference-similarity",
+          "category": "measured",
+          "label": "Reference similarity 0.5750",
+          "detail": "Max cosine similarity between this review's SBERT embedding and 3000 stored reference reviews."
+        },
+        {
+          "id": "attribution:the",
+          "category": "attribution",
+          "label": "Ablating 'the' changed P(fake) by +0.5051",
+          "detail": "P(fake) 0.5567 -> 0.0516 when the term is removed and the verdict would flip to GENUINE."
+        },
+        {
+          "id": "attribution:and",
+          "category": "attribution",
+          "label": "Ablating 'and' changed P(fake) by +0.3602",
+          "detail": "P(fake) 0.5567 -> 0.1965 when the term is removed and the verdict would flip to GENUINE."
+        },
+        {
+          "id": "attribution:buy",
+          "category": "attribution",
+          "label": "Ablating 'buy' changed P(fake) by -0.1422",
+          "detail": "P(fake) 0.5567 -> 0.6989 when the term is removed."
+        }
+      ],
+      "suspiciousWords": [
+        {
+          "word": "buy",
+          "count": 1,
+          "reason": "promotional keyword from the model's PROMO_KEYWORDS list - presence counts once toward the promo_score input feature"
+        },
+        {
+          "word": "the",
+          "count": 4,
+          "reason": "repeated in this review - contributes to the repetition_ratio input feature"
+        },
+        {
+          "word": "and",
+          "count": 3,
+          "reason": "repeated in this review - contributes to the repetition_ratio input feature"
+        },
+        {
+          "word": "is",
+          "count": 2,
+          "reason": "repeated in this review - contributes to the repetition_ratio input feature"
+        }
+      ],
+      "measuredSignals": [
+        {
+          "key": "review_length",
+          "label": "Review length",
+          "value": 33,
+          "unit": "words",
+          "description": "Word count of the cleaned text - the model's review_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "char_length",
+          "label": "Character length",
+          "value": 194,
+          "unit": "chars",
+          "description": "Character count of the submitted text - the model's char_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "repetition_ratio",
+          "label": "Repetition ratio",
+          "value": 0.18181818181818182,
+          "unit": "ratio",
+          "description": "Occurrences beyond each word's first use, divided by total words - the model's repetition_ratio input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sentiment",
+          "label": "Sentiment (VADER compound)",
+          "value": 0.9583,
+          "unit": "compound",
+          "description": "VADER compound sentiment of the cleaned text, from -1 (most negative) to +1 (most positive) - the model's sentiment input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "promo_score",
+          "label": "Promotional keyword score",
+          "value": 1,
+          "unit": "keywords",
+          "description": "Number of PROMO_KEYWORDS matched in the cleaned text - the model's promo_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "rating_sent_gap",
+          "label": "Rating-sentiment gap",
+          "value": 0.1042500000000004,
+          "unit": "gap",
+          "description": "abs(rating - ((sentiment + 1) * 2.5)) - mismatch between the star rating and VADER sentiment, the model's rating_sent_gap input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "avg_word_length",
+          "label": "Average word length",
+          "value": 4.787878787878788,
+          "unit": "chars",
+          "description": "Mean word length of the cleaned text - the model's avg_word_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "short_flag",
+          "label": "Short-review flag",
+          "value": 0,
+          "unit": "0 or 1",
+          "description": "1 when the cleaned text has fewer than 5 words, else 0 - the model's short_flag input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sim_score",
+          "label": "Reference similarity",
+          "value": 0.5750254633844878,
+          "unit": "cosine",
+          "description": "Maximum cosine similarity between this review's SBERT embedding and the 3000 stored reference review embeddings - the model's sim_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        }
+      ],
+      "explanationSummary": "The model classified this 33-token review as FAKE (P(fake)=0.5567 against a decision threshold of 0.4738). Measured promotional language: 'buy' (1 match(es) feeding promo_score). Measured repetition: ratio 0.1818, most repeated: 'the' ×4, 'and' ×3, 'is' ×2. Sentiment-rating relationship: VADER compound 0.9583 with a 5★ rating (gap 0.1043, a model input). Similarity to the stored reference reviews: 0.5750. Term-ablation perturbation evaluated 4 term(s); largest effect: 'the' (ΔP(fake) = +0.5051). These are measured model inputs and perturbation sensitivities - they document what was computed for this review, not proof of deception and not causal attribution.",
+      "limitations": [
+        "Measured signals are inputs to the model and diagnostics on the text; they do not establish why the ensemble produced its verdict.",
+        "Term-ablation attribution is a perturbation sensitivity measurement on this trained model - not SHAP, not LIME, and not a causal claim.",
+        "The classifier detects statistical patterns in wording; it cannot verify whether any individual review is genuinely deceptive."
+      ],
+      "attribution": {
+        "method": "term-ablation-perturbation",
+        "status": "available",
+        "description": "Term-ablation sensitivity: each listed term is deleted from the submitted review text and the full model pipeline is re-run. deltaFakeProbability = P(fake | original text) - P(fake | term removed); a positive value means the term moved THIS model's output toward Fake for THIS review. This is a perturbation measurement, NOT SHAP or LIME, and not a causal claim that the term proves deception.",
+        "unavailableReason": null,
+        "terms": [
+          {
+            "term": "buy",
+            "pFakeOriginal": 0.5567264588983534,
+            "pFakeWithoutTerm": 0.6989489209476831,
+            "deltaFakeProbability": -0.14222246204932976,
+            "labelWithoutTerm": "fake",
+            "wouldChangeLabel": false
+          },
+          {
+            "term": "the",
+            "pFakeOriginal": 0.5567264588983534,
+            "pFakeWithoutTerm": 0.05162781483830777,
+            "deltaFakeProbability": 0.5050986440600456,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": true
+          },
+          {
+            "term": "and",
+            "pFakeOriginal": 0.5567264588983534,
+            "pFakeWithoutTerm": 0.19649003134131693,
+            "deltaFakeProbability": 0.36023642755703644,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": true
+          },
+          {
+            "term": "is",
+            "pFakeOriginal": 0.5567264588983534,
+            "pFakeWithoutTerm": 0.4209986051186877,
+            "deltaFakeProbability": 0.13572785377966567,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": true
+          }
+        ],
+        "partialFailures": null
+      }
+    },
+    "sentimentLabel": "positive",
+    "ratingSentimentGap": 0,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-13T09:19:54.085Z"
+  },
+  {
+    "id": "h_2817ed1ff507",
+    "batchId": "b_c1a45bacc3",
+    "entryRef": "e16",
+    "text": "Product(Travelling Bag) is of premium quality and value for money. Bag Colour is classy.Wheel is 360° movable which is good.Look wise product is durable by initial impressions but yet to use.\n\nBut pac",
+    "rating": 4,
+    "productName": null,
+    "productCategory": "Other",
+    "prediction": "genuine",
+    "probabilities": {
+      "fake": 0.14625191887025582,
+      "genuine": 0.8537480811297442
+    },
+    "trustScore": 85,
+    "riskLevel": "low",
+    "confidence": 0.8537480811297442,
+    "evidence": {
+      "version": 1,
+      "reviewText": "Product(Travelling Bag) is of premium quality and value for money. Bag Colour is classy.Wheel is 360° movable which is good.Look wise product is durable by initial impressions but yet to use.\n\nBut packaging of Product is very poor as,I have received the product with torn packaging which caused several scretch at one of the lower end of Product. This is not acceptable and desired from Amazon.",
+      "threshold": 0.47375,
+      "topEvidence": [
+        {
+          "id": "decision",
+          "category": "model",
+          "label": "Stacking ensemble verdict: GENUINE",
+          "detail": "P(fake) = 0.1463 vs decision threshold 0.4738 -> GENUINE (confidence 0.8537)."
+        },
+        {
+          "id": "base-learners",
+          "category": "model",
+          "label": "Base-learner Fake probabilities (1/3 above 0.5)",
+          "detail": "Logistic Regression 0.5254 · XGBoost 0.0344 · LightGBM 0.0212 feed the stacking meta-model."
+        },
+        {
+          "id": "repetition",
+          "category": "measured",
+          "label": "Repetition ratio 0.2714",
+          "detail": "Repeated: 'is' ×7, 'product' ×5, 'of' ×4, 'and' ×2, 'bag' ×2 - feeds the repetition_ratio input feature."
+        },
+        {
+          "id": "rating-sentiment",
+          "category": "measured",
+          "label": "Sentiment -0.7509 vs 4★ rating (gap 3.3773)",
+          "detail": "VADER compound sentiment of this text against the submitted star rating - the model's rating_sent_gap input feature."
+        },
+        {
+          "id": "reference-similarity",
+          "category": "measured",
+          "label": "Reference similarity 0.5672",
+          "detail": "Max cosine similarity between this review's SBERT embedding and 3000 stored reference reviews."
+        },
+        {
+          "id": "attribution:is",
+          "category": "attribution",
+          "label": "Ablating 'is' changed P(fake) by +0.1183",
+          "detail": "P(fake) 0.1463 -> 0.0280 when the term is removed."
+        },
+        {
+          "id": "attribution:bag",
+          "category": "attribution",
+          "label": "Ablating 'bag' changed P(fake) by +0.1026",
+          "detail": "P(fake) 0.1463 -> 0.0436 when the term is removed."
+        },
+        {
+          "id": "attribution:of",
+          "category": "attribution",
+          "label": "Ablating 'of' changed P(fake) by +0.0814",
+          "detail": "P(fake) 0.1463 -> 0.0649 when the term is removed."
+        }
+      ],
+      "suspiciousWords": [
+        {
+          "word": "is",
+          "count": 7,
+          "reason": "repeated in this review - contributes to the repetition_ratio input feature"
+        },
+        {
+          "word": "product",
+          "count": 5,
+          "reason": "repeated in this review - contributes to the repetition_ratio input feature"
+        },
+        {
+          "word": "of",
+          "count": 4,
+          "reason": "repeated in this review - contributes to the repetition_ratio input feature"
+        },
+        {
+          "word": "and",
+          "count": 2,
+          "reason": "repeated in this review - contributes to the repetition_ratio input feature"
+        },
+        {
+          "word": "bag",
+          "count": 2,
+          "reason": "repeated in this review - contributes to the repetition_ratio input feature"
+        }
+      ],
+      "measuredSignals": [
+        {
+          "key": "review_length",
+          "label": "Review length",
+          "value": 70,
+          "unit": "words",
+          "description": "Word count of the cleaned text - the model's review_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "char_length",
+          "label": "Character length",
+          "value": 394,
+          "unit": "chars",
+          "description": "Character count of the submitted text - the model's char_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "repetition_ratio",
+          "label": "Repetition ratio",
+          "value": 0.2714285714285714,
+          "unit": "ratio",
+          "description": "Occurrences beyond each word's first use, divided by total words - the model's repetition_ratio input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sentiment",
+          "label": "Sentiment (VADER compound)",
+          "value": -0.7509,
+          "unit": "compound",
+          "description": "VADER compound sentiment of the cleaned text, from -1 (most negative) to +1 (most positive) - the model's sentiment input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "promo_score",
+          "label": "Promotional keyword score",
+          "value": 0,
+          "unit": "keywords",
+          "description": "Number of PROMO_KEYWORDS matched in the cleaned text - the model's promo_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "rating_sent_gap",
+          "label": "Rating-sentiment gap",
+          "value": 3.37725,
+          "unit": "gap",
+          "description": "abs(rating - ((sentiment + 1) * 2.5)) - mismatch between the star rating and VADER sentiment, the model's rating_sent_gap input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "avg_word_length",
+          "label": "Average word length",
+          "value": 4.542857142857143,
+          "unit": "chars",
+          "description": "Mean word length of the cleaned text - the model's avg_word_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "short_flag",
+          "label": "Short-review flag",
+          "value": 0,
+          "unit": "0 or 1",
+          "description": "1 when the cleaned text has fewer than 5 words, else 0 - the model's short_flag input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sim_score",
+          "label": "Reference similarity",
+          "value": 0.5671640937272715,
+          "unit": "cosine",
+          "description": "Maximum cosine similarity between this review's SBERT embedding and the 3000 stored reference review embeddings - the model's sim_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        }
+      ],
+      "explanationSummary": "The model classified this 70-token review as GENUINE (P(fake)=0.1463 against a decision threshold of 0.4738). No keywords from the promotional list appear in this text (promo_score = 0). Measured repetition: ratio 0.2714, most repeated: 'is' ×7, 'product' ×5, 'of' ×4. Sentiment-rating relationship: VADER compound -0.7509 with a 4★ rating (gap 3.3773, a model input). Similarity to the stored reference reviews: 0.5672. Term-ablation perturbation evaluated 5 term(s); largest effect: 'is' (ΔP(fake) = +0.1183). These are measured model inputs and perturbation sensitivities - they document what was computed for this review, not proof of deception and not causal attribution.",
+      "limitations": [
+        "Measured signals are inputs to the model and diagnostics on the text; they do not establish why the ensemble produced its verdict.",
+        "Term-ablation attribution is a perturbation sensitivity measurement on this trained model - not SHAP, not LIME, and not a causal claim.",
+        "The classifier detects statistical patterns in wording; it cannot verify whether any individual review is genuinely deceptive."
+      ],
+      "attribution": {
+        "method": "term-ablation-perturbation",
+        "status": "available",
+        "description": "Term-ablation sensitivity: each listed term is deleted from the submitted review text and the full model pipeline is re-run. deltaFakeProbability = P(fake | original text) - P(fake | term removed); a positive value means the term moved THIS model's output toward Fake for THIS review. This is a perturbation measurement, NOT SHAP or LIME, and not a causal claim that the term proves deception.",
+        "unavailableReason": null,
+        "terms": [
+          {
+            "term": "is",
+            "pFakeOriginal": 0.14625191887025582,
+            "pFakeWithoutTerm": 0.027974051310477786,
+            "deltaFakeProbability": 0.11827786755977804,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": false
+          },
+          {
+            "term": "product",
+            "pFakeOriginal": 0.14625191887025582,
+            "pFakeWithoutTerm": 0.08177638510939282,
+            "deltaFakeProbability": 0.064475533760863,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": false
+          },
+          {
+            "term": "of",
+            "pFakeOriginal": 0.14625191887025582,
+            "pFakeWithoutTerm": 0.06489239864534775,
+            "deltaFakeProbability": 0.08135952022490807,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": false
+          },
+          {
+            "term": "and",
+            "pFakeOriginal": 0.14625191887025582,
+            "pFakeWithoutTerm": 0.1562227562685803,
+            "deltaFakeProbability": -0.009970837398324467,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": false
+          },
+          {
+            "term": "bag",
+            "pFakeOriginal": 0.14625191887025582,
+            "pFakeWithoutTerm": 0.04363225525628863,
+            "deltaFakeProbability": 0.10261966361396718,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": false
+          }
+        ],
+        "partialFailures": null
+      }
+    },
+    "sentimentLabel": "positive",
+    "ratingSentimentGap": 0.5,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-13T09:20:41.287Z"
+  },
+  {
+    "id": "h_7gmgpjhi",
+    "text": "Bought this coffee grinder three weeks ago. The burrs feel solid and the grind is consistent for pour-over. It is a bit loud, but it does the job.",
+    "rating": 4,
+    "productName": null,
+    "productCategory": null,
+    "prediction": "fake",
+    "probabilities": {
+      "fake": 0.6469425938855259,
+      "genuine": 0.3530574061144741
+    },
+    "trustScore": 35,
+    "riskLevel": "high",
+    "confidence": 0.6469425938855259,
+    "evidence": {
+      "version": 1,
+      "reviewText": "Bought this coffee grinder three weeks ago. The burrs feel solid and the grind is consistent for pour-over. It is a bit loud, but it does the job.",
+      "threshold": 0.47375,
+      "topEvidence": [
+        {
+          "id": "decision",
+          "category": "model",
+          "label": "Stacking ensemble verdict: FAKE",
+          "detail": "P(fake) = 0.6469 vs decision threshold 0.4738 -> FAKE (confidence 0.6469)."
+        },
+        {
+          "id": "base-learners",
+          "category": "model",
+          "label": "Base-learner Fake probabilities (2/3 above 0.5)",
+          "detail": "Logistic Regression 0.6617 · XGBoost 0.4571 · LightGBM 0.5689 feed the stacking meta-model."
+        },
+        {
+          "id": "repetition",
+          "category": "measured",
+          "label": "Repetition ratio 0.1379",
+          "detail": "Repeated: 'the' ×3, 'is' ×2, 'it' ×2 - feeds the repetition_ratio input feature."
+        },
+        {
+          "id": "rating-sentiment",
+          "category": "measured",
+          "label": "Sentiment 0.0772 vs 4★ rating (gap 1.3070)",
+          "detail": "VADER compound sentiment of this text against the submitted star rating - the model's rating_sent_gap input feature."
+        },
+        {
+          "id": "reference-similarity",
+          "category": "measured",
+          "label": "Reference similarity 0.4860",
+          "detail": "Max cosine similarity between this review's SBERT embedding and 3000 stored reference reviews."
+        },
+        {
+          "id": "attribution:the",
+          "category": "attribution",
+          "label": "Ablating 'the' changed P(fake) by +0.5706",
+          "detail": "P(fake) 0.6469 -> 0.0764 when the term is removed and the verdict would flip to GENUINE."
+        },
+        {
+          "id": "attribution:is",
+          "category": "attribution",
+          "label": "Ablating 'is' changed P(fake) by +0.4123",
+          "detail": "P(fake) 0.6469 -> 0.2347 when the term is removed and the verdict would flip to GENUINE."
+        },
+        {
+          "id": "attribution:it",
+          "category": "attribution",
+          "label": "Ablating 'it' changed P(fake) by +0.3463",
+          "detail": "P(fake) 0.6469 -> 0.3006 when the term is removed and the verdict would flip to GENUINE."
+        }
+      ],
+      "suspiciousWords": [
+        {
+          "word": "the",
+          "count": 3,
+          "reason": "repeated in this review - contributes to the repetition_ratio input feature"
+        },
+        {
+          "word": "is",
+          "count": 2,
+          "reason": "repeated in this review - contributes to the repetition_ratio input feature"
+        },
+        {
+          "word": "it",
+          "count": 2,
+          "reason": "repeated in this review - contributes to the repetition_ratio input feature"
+        }
+      ],
+      "measuredSignals": [
+        {
+          "key": "review_length",
+          "label": "Review length",
+          "value": 29,
+          "unit": "words",
+          "description": "Word count of the cleaned text - the model's review_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "char_length",
+          "label": "Character length",
+          "value": 146,
+          "unit": "chars",
+          "description": "Character count of the submitted text - the model's char_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "repetition_ratio",
+          "label": "Repetition ratio",
+          "value": 0.13793103448275862,
+          "unit": "ratio",
+          "description": "Occurrences beyond each word's first use, divided by total words - the model's repetition_ratio input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sentiment",
+          "label": "Sentiment (VADER compound)",
+          "value": 0.0772,
+          "unit": "compound",
+          "description": "VADER compound sentiment of the cleaned text, from -1 (most negative) to +1 (most positive) - the model's sentiment input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "promo_score",
+          "label": "Promotional keyword score",
+          "value": 0,
+          "unit": "keywords",
+          "description": "Number of PROMO_KEYWORDS matched in the cleaned text - the model's promo_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "rating_sent_gap",
+          "label": "Rating-sentiment gap",
+          "value": 1.3070000000000004,
+          "unit": "gap",
+          "description": "abs(rating - ((sentiment + 1) * 2.5)) - mismatch between the star rating and VADER sentiment, the model's rating_sent_gap input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "avg_word_length",
+          "label": "Average word length",
+          "value": 3.9310344827586206,
+          "unit": "chars",
+          "description": "Mean word length of the cleaned text - the model's avg_word_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "short_flag",
+          "label": "Short-review flag",
+          "value": 0,
+          "unit": "0 or 1",
+          "description": "1 when the cleaned text has fewer than 5 words, else 0 - the model's short_flag input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sim_score",
+          "label": "Reference similarity",
+          "value": 0.48602167328092427,
+          "unit": "cosine",
+          "description": "Maximum cosine similarity between this review's SBERT embedding and the 3000 stored reference review embeddings - the model's sim_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        }
+      ],
+      "explanationSummary": "The model classified this 29-token review as FAKE (P(fake)=0.6469 against a decision threshold of 0.4738). No keywords from the promotional list appear in this text (promo_score = 0). Measured repetition: ratio 0.1379, most repeated: 'the' ×3, 'is' ×2, 'it' ×2. Sentiment-rating relationship: VADER compound 0.0772 with a 4★ rating (gap 1.3070, a model input). Similarity to the stored reference reviews: 0.4860. Term-ablation perturbation evaluated 3 term(s); largest effect: 'the' (ΔP(fake) = +0.5706). These are measured model inputs and perturbation sensitivities - they document what was computed for this review, not proof of deception and not causal attribution.",
+      "limitations": [
+        "Measured signals are inputs to the model and diagnostics on the text; they do not establish why the ensemble produced its verdict.",
+        "Term-ablation attribution is a perturbation sensitivity measurement on this trained model - not SHAP, not LIME, and not a causal claim.",
+        "The classifier detects statistical patterns in wording; it cannot verify whether any individual review is genuinely deceptive."
+      ],
+      "attribution": {
+        "method": "term-ablation-perturbation",
+        "status": "available",
+        "description": "Term-ablation sensitivity: each listed term is deleted from the submitted review text and the full model pipeline is re-run. deltaFakeProbability = P(fake | original text) - P(fake | term removed); a positive value means the term moved THIS model's output toward Fake for THIS review. This is a perturbation measurement, NOT SHAP or LIME, and not a causal claim that the term proves deception.",
+        "unavailableReason": null,
+        "terms": [
+          {
+            "term": "the",
+            "pFakeOriginal": 0.6469425938855259,
+            "pFakeWithoutTerm": 0.07638118516665042,
+            "deltaFakeProbability": 0.5705614087188755,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": true
+          },
+          {
+            "term": "is",
+            "pFakeOriginal": 0.6469425938855259,
+            "pFakeWithoutTerm": 0.2346795880585711,
+            "deltaFakeProbability": 0.4122630058269548,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": true
+          },
+          {
+            "term": "it",
+            "pFakeOriginal": 0.6469425938855259,
+            "pFakeWithoutTerm": 0.30062374054143676,
+            "deltaFakeProbability": 0.34631885334408913,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": true
+          }
+        ],
+        "partialFailures": null
+      }
+    },
+    "sentimentLabel": "positive",
+    "ratingSentimentGap": 0.5,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-29T08:30:13.211Z"
+  },
+  {
+    "id": "h_508030d09c53",
+    "batchId": "b_8734b48ef8",
+    "entryRef": "e4",
+    "text": "Amazing product! Highly recommended. Excellent quality and best purchase ever!",
+    "rating": 5,
+    "productName": null,
+    "productCategory": "Electronics",
+    "prediction": "genuine",
+    "probabilities": {
+      "fake": 0.1058004008549777,
+      "genuine": 0.8941995991450223
+    },
+    "trustScore": 89,
+    "riskLevel": "low",
+    "confidence": 0.8941995991450223,
+    "evidence": {
+      "version": 1,
+      "reviewText": "Amazing product! Highly recommended. Excellent quality and best purchase ever!",
+      "threshold": 0.47375,
+      "topEvidence": [
+        {
+          "id": "decision",
+          "category": "model",
+          "label": "Stacking ensemble verdict: GENUINE",
+          "detail": "P(fake) = 0.1058 vs decision threshold 0.4738 -> GENUINE (confidence 0.8942)."
+        },
+        {
+          "id": "base-learners",
+          "category": "model",
+          "label": "Base-learner Fake probabilities (1/3 above 0.5)",
+          "detail": "Logistic Regression 0.1093 · XGBoost 0.4196 · LightGBM 0.6153 feed the stacking meta-model."
+        },
+        {
+          "id": "promo-language",
+          "category": "measured",
+          "label": "4 promotional term(s) matched in this review",
+          "detail": "Matches: 'amazing', 'best', 'excellent', 'highly recommended' - feeds the promo_score input feature. Matching promotional wording is not proof of deception."
+        },
+        {
+          "id": "rating-sentiment",
+          "category": "measured",
+          "label": "Sentiment 0.9398 vs 5★ rating (gap 0.1505)",
+          "detail": "VADER compound sentiment of this text against the submitted star rating - the model's rating_sent_gap input feature."
+        },
+        {
+          "id": "reference-similarity",
+          "category": "measured",
+          "label": "Reference similarity 0.7965",
+          "detail": "Max cosine similarity between this review's SBERT embedding and 3000 stored reference reviews."
+        },
+        {
+          "id": "attribution:amazing",
+          "category": "attribution",
+          "label": "Ablating 'amazing' changed P(fake) by -0.2277",
+          "detail": "P(fake) 0.1058 -> 0.3335 when the term is removed."
+        },
+        {
+          "id": "attribution:highly recommended",
+          "category": "attribution",
+          "label": "Ablating 'highly recommended' changed P(fake) by -0.0718",
+          "detail": "P(fake) 0.1058 -> 0.1776 when the term is removed."
+        },
+        {
+          "id": "attribution:excellent",
+          "category": "attribution",
+          "label": "Ablating 'excellent' changed P(fake) by -0.0134",
+          "detail": "P(fake) 0.1058 -> 0.1192 when the term is removed."
+        }
+      ],
+      "suspiciousWords": [
+        {
+          "word": "amazing",
+          "count": 1,
+          "reason": "promotional keyword from the model's PROMO_KEYWORDS list - presence counts once toward the promo_score input feature"
+        },
+        {
+          "word": "best",
+          "count": 1,
+          "reason": "promotional keyword from the model's PROMO_KEYWORDS list - presence counts once toward the promo_score input feature"
+        },
+        {
+          "word": "excellent",
+          "count": 1,
+          "reason": "promotional keyword from the model's PROMO_KEYWORDS list - presence counts once toward the promo_score input feature"
+        },
+        {
+          "word": "highly recommended",
+          "count": 1,
+          "reason": "promotional keyword from the model's PROMO_KEYWORDS list - presence counts once toward the promo_score input feature"
+        }
+      ],
+      "measuredSignals": [
+        {
+          "key": "review_length",
+          "label": "Review length",
+          "value": 10,
+          "unit": "words",
+          "description": "Word count of the cleaned text - the model's review_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "char_length",
+          "label": "Character length",
+          "value": 78,
+          "unit": "chars",
+          "description": "Character count of the submitted text - the model's char_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "repetition_ratio",
+          "label": "Repetition ratio",
+          "value": 0,
+          "unit": "ratio",
+          "description": "Occurrences beyond each word's first use, divided by total words - the model's repetition_ratio input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sentiment",
+          "label": "Sentiment (VADER compound)",
+          "value": 0.9398,
+          "unit": "compound",
+          "description": "VADER compound sentiment of the cleaned text, from -1 (most negative) to +1 (most positive) - the model's sentiment input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "promo_score",
+          "label": "Promotional keyword score",
+          "value": 4,
+          "unit": "keywords",
+          "description": "Number of PROMO_KEYWORDS matched in the cleaned text - the model's promo_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "rating_sent_gap",
+          "label": "Rating-sentiment gap",
+          "value": 0.15050000000000008,
+          "unit": "gap",
+          "description": "abs(rating - ((sentiment + 1) * 2.5)) - mismatch between the star rating and VADER sentiment, the model's rating_sent_gap input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "avg_word_length",
+          "label": "Average word length",
+          "value": 6.8,
+          "unit": "chars",
+          "description": "Mean word length of the cleaned text - the model's avg_word_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "short_flag",
+          "label": "Short-review flag",
+          "value": 0,
+          "unit": "0 or 1",
+          "description": "1 when the cleaned text has fewer than 5 words, else 0 - the model's short_flag input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sim_score",
+          "label": "Reference similarity",
+          "value": 0.7964663947169973,
+          "unit": "cosine",
+          "description": "Maximum cosine similarity between this review's SBERT embedding and the 3000 stored reference review embeddings - the model's sim_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        }
+      ],
+      "explanationSummary": "The model classified this 10-token review as GENUINE (P(fake)=0.1058 against a decision threshold of 0.4738). Measured promotional language: 'amazing', 'best', 'excellent', 'highly recommended' (4 match(es) feeding promo_score). No word repeats beyond first occurrences were detected in this text. Sentiment-rating relationship: VADER compound 0.9398 with a 5★ rating (gap 0.1505, a model input). Similarity to the stored reference reviews: 0.7965. Term-ablation perturbation evaluated 4 term(s); largest effect: 'amazing' (ΔP(fake) = -0.2277). These are measured model inputs and perturbation sensitivities - they document what was computed for this review, not proof of deception and not causal attribution.",
+      "limitations": [
+        "Measured signals are inputs to the model and diagnostics on the text; they do not establish why the ensemble produced its verdict.",
+        "Term-ablation attribution is a perturbation sensitivity measurement on this trained model - not SHAP, not LIME, and not a causal claim.",
+        "The classifier detects statistical patterns in wording; it cannot verify whether any individual review is genuinely deceptive."
+      ],
+      "attribution": {
+        "method": "term-ablation-perturbation",
+        "status": "available",
+        "description": "Term-ablation sensitivity: each listed term is deleted from the submitted review text and the full model pipeline is re-run. deltaFakeProbability = P(fake | original text) - P(fake | term removed); a positive value means the term moved THIS model's output toward Fake for THIS review. This is a perturbation measurement, NOT SHAP or LIME, and not a causal claim that the term proves deception.",
+        "unavailableReason": null,
+        "terms": [
+          {
+            "term": "amazing",
+            "pFakeOriginal": 0.1058004008549777,
+            "pFakeWithoutTerm": 0.33353652998952676,
+            "deltaFakeProbability": -0.22773612913454905,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": false
+          },
+          {
+            "term": "best",
+            "pFakeOriginal": 0.1058004008549777,
+            "pFakeWithoutTerm": 0.09395355455635937,
+            "deltaFakeProbability": 0.011846846298618333,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": false
+          },
+          {
+            "term": "excellent",
+            "pFakeOriginal": 0.1058004008549777,
+            "pFakeWithoutTerm": 0.1192298225751917,
+            "deltaFakeProbability": -0.013429421720213996,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": false
+          },
+          {
+            "term": "highly recommended",
+            "pFakeOriginal": 0.1058004008549777,
+            "pFakeWithoutTerm": 0.17756571176529473,
+            "deltaFakeProbability": -0.07176531091031703,
+            "labelWithoutTerm": "genuine",
+            "wouldChangeLabel": false
+          }
+        ],
+        "partialFailures": null
+      }
+    },
+    "sentimentLabel": "positive",
+    "ratingSentimentGap": 0,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-29T08:33:48.442Z"
+  },
+  {
+    "id": "h_ca0c1e448e32",
+    "batchId": "b_0859cee756",
+    "entryRef": "e5",
+    "text": "this product is good but not comfortable for hearing",
+    "rating": 3,
+    "productName": "headphones",
+    "productCategory": "Electronics",
+    "prediction": "fake",
+    "probabilities": {
+      "fake": 0.6018651780621328,
+      "genuine": 0.3981348219378672
+    },
+    "trustScore": 40,
+    "riskLevel": "high",
+    "confidence": 0.6018651780621328,
+    "evidence": {
+      "version": 1,
+      "reviewText": "this product is good but not comfortable for hearing",
+      "threshold": 0.47375,
+      "topEvidence": [
+        {
+          "id": "decision",
+          "category": "model",
+          "label": "Stacking ensemble verdict: FAKE",
+          "detail": "P(fake) = 0.6019 vs decision threshold 0.4738 -> FAKE (confidence 0.6019)."
+        },
+        {
+          "id": "base-learners",
+          "category": "model",
+          "label": "Base-learner Fake probabilities (2/3 above 0.5)",
+          "detail": "Logistic Regression 0.7396 · XGBoost 0.5182 · LightGBM 0.2862 feed the stacking meta-model."
+        },
+        {
+          "id": "rating-sentiment",
+          "category": "measured",
+          "label": "Sentiment -0.3824 vs 3★ rating (gap 1.4560)",
+          "detail": "VADER compound sentiment of this text against the submitted star rating - the model's rating_sent_gap input feature."
+        },
+        {
+          "id": "reference-similarity",
+          "category": "measured",
+          "label": "Reference similarity 0.5663",
+          "detail": "Max cosine similarity between this review's SBERT embedding and 3000 stored reference reviews."
+        },
+        {
+          "id": "attribution",
+          "category": "attribution",
+          "label": "Term-ablation attribution unavailable",
+          "detail": "This review contains no promotional matches and no repeated words, so there are no candidate terms to ablate."
+        }
+      ],
+      "suspiciousWords": [],
+      "measuredSignals": [
+        {
+          "key": "review_length",
+          "label": "Review length",
+          "value": 9,
+          "unit": "words",
+          "description": "Word count of the cleaned text - the model's review_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "char_length",
+          "label": "Character length",
+          "value": 52,
+          "unit": "chars",
+          "description": "Character count of the submitted text - the model's char_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "repetition_ratio",
+          "label": "Repetition ratio",
+          "value": 0,
+          "unit": "ratio",
+          "description": "Occurrences beyond each word's first use, divided by total words - the model's repetition_ratio input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sentiment",
+          "label": "Sentiment (VADER compound)",
+          "value": -0.3824,
+          "unit": "compound",
+          "description": "VADER compound sentiment of the cleaned text, from -1 (most negative) to +1 (most positive) - the model's sentiment input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "promo_score",
+          "label": "Promotional keyword score",
+          "value": 0,
+          "unit": "keywords",
+          "description": "Number of PROMO_KEYWORDS matched in the cleaned text - the model's promo_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "rating_sent_gap",
+          "label": "Rating-sentiment gap",
+          "value": 1.4560000000000002,
+          "unit": "gap",
+          "description": "abs(rating - ((sentiment + 1) * 2.5)) - mismatch between the star rating and VADER sentiment, the model's rating_sent_gap input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "avg_word_length",
+          "label": "Average word length",
+          "value": 4.888888888888889,
+          "unit": "chars",
+          "description": "Mean word length of the cleaned text - the model's avg_word_length input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "short_flag",
+          "label": "Short-review flag",
+          "value": 0,
+          "unit": "0 or 1",
+          "description": "1 when the cleaned text has fewer than 5 words, else 0 - the model's short_flag input feature.",
+          "available": true,
+          "unavailableReason": null
+        },
+        {
+          "key": "sim_score",
+          "label": "Reference similarity",
+          "value": 0.566334375942717,
+          "unit": "cosine",
+          "description": "Maximum cosine similarity between this review's SBERT embedding and the 3000 stored reference review embeddings - the model's sim_score input feature.",
+          "available": true,
+          "unavailableReason": null
+        }
+      ],
+      "explanationSummary": "The model classified this 9-token review as FAKE (P(fake)=0.6019 against a decision threshold of 0.4738). No keywords from the promotional list appear in this text (promo_score = 0). No word repeats beyond first occurrences were detected in this text. Sentiment-rating relationship: VADER compound -0.3824 with a 3★ rating (gap 1.4560, a model input). Similarity to the stored reference reviews: 0.5663. Term-ablation attribution is unavailable for this review: This review contains no promotional matches and no repeated words, so there are no candidate terms to ablate. These are measured model inputs and perturbation sensitivities - they document what was computed for this review, not proof of deception and not causal attribution.",
+      "limitations": [
+        "Measured signals are inputs to the model and diagnostics on the text; they do not establish why the ensemble produced its verdict.",
+        "Term-ablation attribution is a perturbation sensitivity measurement on this trained model - not SHAP, not LIME, and not a causal claim.",
+        "The classifier detects statistical patterns in wording; it cannot verify whether any individual review is genuinely deceptive."
+      ],
+      "attribution": {
+        "method": null,
+        "status": "unavailable",
+        "description": "Term-ablation sensitivity: each listed term is deleted from the submitted review text and the full model pipeline is re-run. deltaFakeProbability = P(fake | original text) - P(fake | term removed); a positive value means the term moved THIS model's output toward Fake for THIS review. This is a perturbation measurement, NOT SHAP or LIME, and not a causal claim that the term proves deception.",
+        "unavailableReason": "This review contains no promotional matches and no repeated words, so there are no candidate terms to ablate.",
+        "terms": [],
+        "partialFailures": null
+      }
+    },
+    "sentimentLabel": "positive",
+    "ratingSentimentGap": 1,
+    "modelVersion": "1.0.0",
+    "analyzedAt": "2026-10-29T08:36:46.828Z"
+  }
+]

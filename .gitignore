@@ -1,0 +1,35 @@
+# Dependencies and build output
+node_modules/
+dist/
+
+# Python virtual environments and caches
+ml/.venv/
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Environment files and credentials (templates stay tracked)
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Logs and runtime output
+*.log
+
+# Freebuff local project metadata (contains this machine's project id)
+.freebuff/
+
+# Scratch verification scripts and screenshots
+*.tmp.mjs
+e2e_xai.mjs
+.verify_shots/
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

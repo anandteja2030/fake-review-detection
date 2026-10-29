@@ -1,0 +1,21 @@
+{
+  "name": "explainable-fake-review-detection",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Explainable Fake Review Detection — application + backend for a hybrid NLP / stacking-ensemble ML project (ML model not yet connected; integrates with an existing Python inference pipeline).",
+  "workspaces": [
+    "frontend",
+    "server"
+  ],
+  "scripts": {
+    "setup": "npm install",
+    "dev:server": "npm run dev --workspace server",
+    "dev:frontend": "npm run dev --workspace frontend",
+    "build": "npm run build --workspace frontend",
+    "test": "npm test --workspace server",
+    "start": "npm start --workspace server"
+  },
+  "allowScripts": {
+    "esbuild@0.21.5": true
+  }
+}
