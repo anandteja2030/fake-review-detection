@@ -1,30 +1,49 @@
 # Runtime for the existing Fake Review Detection inference pipeline.
-# IMPORTANT: align versions with the environment the model was TRAINED in.
-# The pinned minimums below are the versions the integration was checked against;
-# replace with your exact training-env versions if they differ.
+#
+# Versions are PINNED to the environment verified on 2026-10-29 against the
+# 10 saved artifacts in ml/models (all artifacts loaded, real prediction and
+# Explainable-AI evidence produced).
+#
+# CPU/GPU: the verified environment is CPU-only (torch.__version__ ==
+# "2.15.0+cpu"; "+cpu" is a local build tag, not a separate PyPI version).
+# GPU/CUDA installation was not verified; choose a PyTorch wheel matching the
+# target CUDA runtime rather than assuming this CPU-tested pin is GPU-enabled.
+#
+# Fresh-machine setup:
+#   python -m venv .venv
+#   .venv/Scripts/pip install -r requirements.txt    # Windows
+#   .venv/bin/pip install -r requirements.txt        # macOS / Linux
+#
+# First startup needs the network once: SentenceTransformer downloads the
+# all-MiniLM-L6-v2 encoder (~90 MB; HF_HOME or ~/.cache/huggingface), and
+# features.py downloads NLTK's vader_lexicon (~1 MB; NLTK_DATA or ~/nltk_data)
+# automatically when missing. To pre-download VADER: from ml/, run
+#   python -c "import nltk; nltk.download('vader_lexicon')"
+#
+# For an exact transitive lock (same 63 packages as the verified env), install
+# ml/requirements.lock.txt instead; this file pins only load-bearing packages.
 
-fastapi>=0.110
-uvicorn[standard]>=0.29
-pydantic>=2.6
-python-dotenv>=1.0
+fastapi==0.162.0
+uvicorn[standard]==0.54.0
+pydantic==2.14.1
+python-dotenv==1.2.4
 
-numpy>=1.26
-scipy>=1.11
-scikit-learn>=1.4
-joblib>=1.3
+numpy==2.5.4
+scipy==1.18.1
+scikit-learn==1.9.1
+joblib==1.6.0
 
 # Base learners
-xgboost>=2.0
-lightgbm>=4.1
+xgboost==3.4.1
+lightgbm==4.7.0
 
-# Sentence-BERT embeddings (all-MiniLM-L6-v2) — heavy; loaded ONCE at startup
-sentence-transformers>=2.7
-torch>=2.2
+# Sentence-BERT embeddings (all-MiniLM-L6-v2) — loaded ONCE at startup.
+# transformers is pinned explicitly and must stay <5: transformers 5.x makes
+# sentence-transformers' loader call AutoProcessor for this text-only repo,
+# which fails with "Unrecognized processing class".
+sentence-transformers==5.1.1
+transformers==4.57.6
+torch==2.15.0
 
-# Sentiment (VADER compound score) - REQUIRED by the original pipeline.
-# On first use the vader_lexicon data set is fetched automatically.
-nltk>=3.8
-
-# Only needed if your original pipeline uses them (remove otherwise):
-# pandas>=2.2
-# imbalanced-learn>=0.12
+# Sentiment (VADER compound score) — REQUIRED by the original pipeline.
+nltk==3.10.4
