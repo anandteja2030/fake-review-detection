@@ -44,12 +44,14 @@ export default function AiOrb({ caption = 'stacking ensemble · live' }) {
   }, []);
 
   const dots = [
-    { a0: 20, r: 'calc(min(272px, 70vw) * 0.33)', dur: '11s', violet: false },
-    { a0: 140, r: 'calc(min(272px, 70vw) * 0.33)', dur: '11s', violet: true, delay: '-5.5s' },
-    { a0: 260, r: 'calc(min(272px, 70vw) * 0.42)', dur: '17s', violet: false, delay: '-4s' },
-    { a0: 60, r: 'calc(min(272px, 70vw) * 0.42)', dur: '17s', violet: true, delay: '-12s' },
-    { a0: 300, r: 'calc(min(272px, 70vw) * 0.49)', dur: '24s', violet: false, delay: '-8s' },
-    { a0: 110, r: 'calc(min(272px, 70vw) * 0.49)', dur: '24s', violet: true, delay: '-19s' },
+    { a0: 20, r: 'calc(min(232px, 66vw) * 0.33)', dur: '11s', violet: false },
+    { a0: 140, r: 'calc(min(232px, 66vw) * 0.33)', dur: '11s', violet: true, delay: '-5.5s' },
+    { a0: 260, r: 'calc(min(232px, 66vw) * 0.42)', dur: '17s', violet: false, delay: '-4s' },
+    { a0: 60, r: 'calc(min(232px, 66vw) * 0.42)', dur: '17s', violet: true, delay: '-12s' },
+    { a0: 300, r: 'calc(min(232px, 66vw) * 0.49)', dur: '24s', violet: false, delay: '-8s' },
+    { a0: 110, r: 'calc(min(232px, 66vw) * 0.49)', dur: '24s', violet: true, delay: '-19s' },
+    { a0: 200, r: 'calc(min(232px, 66vw) * 0.37)', dur: '29s', violet: false, delay: '-15s', sm: true },
+    { a0: 340, r: 'calc(min(232px, 66vw) * 0.45)', dur: '31s', violet: true, delay: '-23s', sm: true }
   ];
 
   return (
@@ -62,7 +64,7 @@ export default function AiOrb({ caption = 'stacking ensemble · live' }) {
         {dots.map((d, i) => (
           <span
             key={i}
-            className={`orb-dot${d.violet ? ' violet' : ''}`}
+            className={`orb-dot${d.violet ? ' violet' : ''}${d.sm ? ' sm' : ''}`}
             style={{
               '--a0': `${d.a0}deg`,
               '--r': d.r,

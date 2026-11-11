@@ -25,7 +25,14 @@ export default function ProbBars({ probabilities }) {
               <span style={{ color }}>{pct}%</span>
             </div>
             <div className="prob-track">
-              <div className="prob-fill" style={{ width: `${pct}%`, background: color }} />
+              <div
+                className="prob-fill"
+                style={{
+                  width: `${pct}%`,
+                  color,
+                  background: `linear-gradient(90deg, color-mix(in srgb, ${color} 62%, #050912), ${color} 78%, color-mix(in srgb, ${color} 84%, #ffffff))`
+                }}
+              />
             </div>
           </div>
         );

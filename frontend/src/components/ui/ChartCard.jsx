@@ -1,24 +1,48 @@
 import StateBlock from './StateBlock.jsx';
 
-export default function ChartCard({ title, subtitle, loading, error, children, height = 260, actions }) {
+/**
+ * Chart surface: header chrome, an inset plot well, and an optional footnote.
+ * The well provides the layered depth (tint + inner highlight + shadow) so
+ * charts sit inside glass rather than on a flat card.
+ */
+export default function ChartCard({
+  title,
+  subtitle,
+  loading,
+  error,
+  children,
+  height = 260,
+  actions,
+  footnote,
+  badge,
+  className = ''
+}) {
   return (
-    <div className="card">
-      <div className="spread" style={{ marginBottom: subtitle || actions ? 12 : 0 }}>
-        <div>
-          {title && <div className="card-title">{title}</div>}
-          {subtitle && <div className="card-sub" style={{ marginBottom: 0 }}>{subtitle}</div>}
+    <div className={`card chart-card ${className}`.trim()}>
+      <div className={`chart-head${subtitle || actions ? '' : ' tight'}`}>
+        <div className="chart-head-text">
+          {title && (
+            <div className="card-title chart-title">
+              {title}
+              {badge && <span className="chart-badge">{badge}</span>}
+            </div>
+          )}
+          {subtitle && <div className="card-sub chart-sub">{subtitle}</div>}
         </div>
         {actions}
       </div>
+
       {loading ? (
-        <div style={{ height }}>
+        <div className="chart-well" style={{ height }}>
           <div className="skeleton" style={{ height: '100%' }} />
         </div>
       ) : error ? (
         <StateBlock kind="error" title="Could not load data">{error.message}</StateBlock>
       ) : (
-        <div style={{ height }}>{children}</div>
+        <div className="chart-well" style={{ height }}>{children}</div>
       )}
+
+      {footnote && <p className="chart-foot">{footnote}</p>}
     </div>
   );
 }

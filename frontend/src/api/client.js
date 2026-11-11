@@ -47,7 +47,8 @@ export const api = {
     method: 'POST',
     body: JSON.stringify({ reviews }),
     // Bounded per-chunk timeout so a hung inference call cannot stall the workflow.
-    timeoutMs: opts.timeoutMs ?? 120000
+    // Long enough to cover a cold model start (~75s+) while the API waits for the engine.
+    timeoutMs: opts.timeoutMs ?? 240000
   }),
   history: (filters = {}) => {
     const qs = new URLSearchParams();

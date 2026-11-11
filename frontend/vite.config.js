@@ -6,6 +6,8 @@ const additionalHosts = process.env.VITE_ADDITIONAL_ALLOWED_HOSTS || '';
 
 export default defineConfig({
   root: './',
+  // GitHub project site: https://anandteja2030.github.io/fake-review-detection/
+  base: '/fake-review-detection/',
   plugins: [react()],
   server: {
     host: '0.0.0.0',
@@ -20,7 +22,8 @@ export default defineConfig({
       output: {
         manualChunks: {
           react: ['react', 'react-dom', 'react-router-dom'],
-          charts: ['recharts']
+          charts: ['recharts'],
+          three: ['three', '@react-three/fiber']
         }
       }
     }

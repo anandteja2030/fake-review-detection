@@ -1,11 +1,13 @@
 import { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { saveSelection, selectionFromAnalysis } from '../lib/evidenceStore.js';
+import { adoptSavedAnalysis } from '../lib/adoptAnalysis.js';
 import { api } from '../api/client.js';
 import { useFetch } from '../hooks/useModels.js';
 import Banner from '../components/ui/Banner.jsx';
 import StateBlock from '../components/ui/StateBlock.jsx';
+import PageHeader from '../components/ui/PageHeader.jsx';
 import ProbBars from '../components/charts/ProbBars.jsx';
+import RadialMeter from '../components/charts/RadialMeter.jsx';
 import { IconRefresh, IconArrowRight, IconPlus, IconTrash, IconEdit, IconCheck } from '../components/layout/Icons.jsx';
 
 const RISK_COLORS = { low: 'var(--genuine)', high: 'var(--fake)' };
@@ -236,12 +238,12 @@ export default function Analyzer({ modelStatus }) {
       if (agg.submitted > 0 && agg.predicted === 0 && agg.completed === 0 && lastError) {
         setRequestError(lastError);
       }
-      // Most recent successful analysis becomes the selected Explainable-AI evidence.
+      // Most recent successful analysis becomes the shared current-analysis
+      // record. Re-reading history here binds the selection to the RECORD the
+      // server just stored, so Analytics and Explainable AI reference the same
+      // id instead of a stale snapshot.
       if (latest?.analysis) {
-        saveSelection(selectionFromAnalysis(latest.analysis, {
-          source: 'analyzer',
-          id: `analysis:${latest.id}:${latest.analysis.analyzedAt || ''}`
-        }));
+        await adoptSavedAnalysis(latest.analysis, { entryId: latest.id, source: 'analyzer' });
       }
       requestAnimationFrame(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
     } finally {
@@ -251,12 +253,9 @@ export default function Analyzer({ modelStatus }) {
   }, [applyPatches, maxBatch]);
 
   /** Select this result's evidence on the Explainable AI page, then open it. */
-  const openEvidence = (entry) => {
+  const openEvidence = async (entry) => {
     if (!entry?.result) return;
-    saveSelection(selectionFromAnalysis(entry.result, {
-      source: 'analyzer',
-      id: `analysis:${entry.id}:${entry.result.analyzedAt || ''}`
-    }));
+    await adoptSavedAnalysis(entry.result, { entryId: entry.id, source: 'analyzer' });
     navigate('/explainability');
   };
 
@@ -278,15 +277,25 @@ export default function Analyzer({ modelStatus }) {
 
   return (
     <div className="page">
-      <div className="page-header enter">
-        <h1>Review Analyzer</h1>
-        <p>
-          Build a collection of <b>30–70 reviews</b> in one workflow. Each review keeps its <b>own text</b>,
-          <b> own star rating</b>, <b> own product category</b>, and <b> own product name</b> — the
-          stacking-ensemble model classifies each as <b>Fake</b> or <b>Genuine</b> independently, and every
-          result stays pinned to the review that produced it.
-        </p>
-      </div>
+      <PageHeader
+        index="02"
+        eyebrow="Analysis workspace"
+        title={<>Review <span className="grad-text">Analyzer</span></>}
+        description={<>Build a collection of <b>30–70 reviews</b> in one workflow. Each review keeps its own text,
+          star rating, product category and product name — the stacking-ensemble model classifies each as
+          <b> Fake</b> or <b>Genuine</b> independently, and every result stays pinned to the review that produced it.</>}
+        meta={[
+          { k: 'Entries', v: entries.length },
+          { k: 'Batch cap', v: maxBatch },
+          { k: 'Completed', v: counts.completed, tone: counts.completed ? 'genuine' : undefined },
+          { k: 'Model', v: modelStatus ? (modelStatus.connected ? 'Online' : 'Offline') : '…', tone: modelStatus?.connected ? 'genuine' : undefined }
+        ]}
+        actions={
+          <button type="button" className="btn btn-secondary btn-sm" onClick={addAnother} disabled={running || atLimit}>
+            <IconPlus width="14" height="14" /> Add review
+          </button>
+        }
+      />
 
       {modelStatus && !modelStatus.connected && (
         <div style={{ marginBottom: 18 }}>
@@ -297,16 +306,17 @@ export default function Analyzer({ modelStatus }) {
         </div>
       )}
 
-      <form className="card lit console-panel enter enter-1" onSubmit={(e) => { e.preventDefault(); runEntries(allTargets.map((x) => x.id)); }}>
+      <form className="card console-panel enter enter-1" onSubmit={(e) => { e.preventDefault(); runEntries(allTargets.map((x) => x.id)); }}>
         <span className="console-rail" aria-hidden="true" />
         <div className="spread" style={{ alignItems: 'flex-start' }}>
           <div>
-            <div className="card-title">Review Collection</div>
+            <div className="card-title">Review collection</div>
             <div className="card-sub">
-              One review per panel. Analyze reviews one at a time with <b>Analyze Review</b>, or run the whole
+              One review per panel. Analyze one at a time with <b>Analyze Review</b>, or run the whole
               collection with <b>Analyze All</b> — requests are split into safe chunks automatically.
             </div>
           </div>
+          <span className="chip cat small-chip">{counts.total} / {MAX_ENTRIES} collected</span>
         </div>
 
         <div className="counters-row" aria-live="polite">
@@ -503,13 +513,17 @@ function EntryPanel({ entry, index, errors, categories, disabled, atLimit, onCha
             error={errors.productCategory} onChange={(v) => onChange({ productCategory: v })} />
         </div>
         <div className="entry-field rating-field">
-          <label className="field-label">Star rating <span className="req">*</span></label>
+          <div className="spread" style={{ marginBottom: 5 }}>
+            <label className="field-label">Star rating <span className="req">*</span></label>
+            <span className="star-readout">{entry.rating ?? '—'} / 5</span>
+          </div>
           <div className="star-picker compact" role="radiogroup" aria-label={`Star rating for review ${index + 1}`}>
             {[1, 2, 3, 4, 5].map((n) => (
               <button type="button" key={n} role="radio" aria-checked={entry.rating === n} disabled={disabled}
-                className={`star-btn${entry.rating === n ? ' selected' : ''}`}
+                aria-label={`${n} star${n > 1 ? 's' : ''}`} data-rating={n}
+                className={`star-btn${entry.rating != null && entry.rating >= n ? ' on' : ''}${entry.rating === n ? ' selected' : ''}`}
                 onClick={() => onChange({ rating: n })}>
-                {n}★
+                ★
               </button>
             ))}
           </div>
@@ -721,6 +735,33 @@ function FullResult({ analysis, entry, index }) {
 
       {modelConnected ? (
         <>
+          <div className={`result-verdict ${analysis.prediction}`}>
+            <div>
+              <span className="rv-k">Model verdict</span>
+              <div className="rv-v">{analysis.prediction === 'fake' ? 'Fake review' : 'Genuine review'}</div>
+              <span className="rv-sub">
+                {analysis.prediction === 'fake'
+                  ? 'Language patterns align with the deceptive-review class.'
+                  : 'No strong deceptive-language pattern was detected in this text.'}
+              </span>
+            </div>
+            <div className="rv-probs">
+              <RadialMeter
+                value={analysis.probabilities ? Number(analysis.probabilities.fake) * 100 : null}
+                label="P(fake)"
+                color="var(--fake)"
+                size={92}
+              />
+              <RadialMeter
+                value={analysis.probabilities
+                  ? Number(analysis.probabilities.genuine != null ? analysis.probabilities.genuine : 1 - Number(analysis.probabilities.fake)) * 100
+                  : null}
+                label="P(genuine)"
+                color="var(--genuine)"
+                size={92}
+              />
+            </div>
+          </div>
           <div className="verdict-strip">
             <div className="verdict-item">
               <div className="vk">Confidence <span className="tag-model">model</span></div>

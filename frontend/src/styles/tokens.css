@@ -1,159 +1,225 @@
 /* ============================================================
-   FREEBUFF — Quantum-Tech Holographic design tokens
-   Deep-space black/navy · luminous cyan + electric blue ·
-   ultraviolet secondary · layered quantum glass.
+   Explainable Fake Review Detection — design tokens
+   Midnight studio glass: layered translucent surfaces, icy cyan
+   primary light, restrained violet, precise type and spacing.
    ============================================================ */
 
 :root {
+  /* ---------- type ---------- */
   --font-display: 'Sora', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
-  --radius-lg: 18px;
-  --radius-md: 13px;
-  --radius-sm: 10px;
-  --max-width: 1360px;
-  --sidebar-w: 262px;
+  /* readable at 100% zoom: nothing informative below 11px */
+  --fs-2xs: 11px;
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-md: 14px;
+  --fs-lg: 15px;
+  --fs-xl: 17px;
+  --fs-2xl: 20px;
+  --fs-3xl: 25px;
+  --fs-4xl: 32px;
+  --fs-label: 10.5px;
 
-  --transition: 180ms cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-slow: 460ms cubic-bezier(0.22, 1, 0.36, 1);
+  /* ---------- space ---------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 26px;
+  --sp-7: 34px;
+  --sp-8: 48px;
 
-  --shadow-card: inset 0 1px 0 rgba(255, 255, 255, 0.045), 0 14px 40px rgba(1, 4, 12, 0.55);
-  --shadow-pop: 0 24px 64px rgba(1, 4, 12, 0.7);
+  /* ---------- geometry ---------- */
+  --radius-xl: 20px;
+  --radius-lg: 15px;
+  --radius-md: 11px;
+  --radius-sm: 8px;
+  --sidebar-w: 250px;
+  --sidebar-w-rail: 74px;
+  --topbar-h: 58px;
+  --max-width: 1500px;
+
+  /* ---------- motion ---------- */
+  --ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-1: 130ms;
+  --dur-2: 220ms;
+  --dur-3: 460ms;
+  --transition: var(--dur-2) var(--ease);
+  --transition-slow: var(--dur-3) var(--ease-out);
 }
 
-/* ---------- Quantum dark theme (default) ---------- */
+/* ---------- midnight glass (default) ---------- */
 :root {
   color-scheme: dark;
 
-  /* space base — near-black with midnight navy depth */
-  --bg: #02040b;
-  --bg-soft: #050813;
-  --space-navy: #060b1a;
+  --bg: #04060e;
+  --bg-soft: #070b17;
 
-  /* layered glass depth: 1 = foreground, 2 = secondary, 3 = background */
-  --glass-1: rgba(10, 17, 36, 0.74);
-  --glass-2: rgba(9, 15, 32, 0.56);
-  --glass-3: rgba(8, 13, 28, 0.38);
-  --panel: var(--glass-2);
-  --panel-solid: #080d1c;
-  --panel-glass: rgba(7, 12, 27, 0.78);
-  --panel-border: rgba(94, 210, 255, 0.13);
-  --panel-border-hover: rgba(56, 200, 255, 0.42);
-  --glass-blur: blur(18px) saturate(150%);
+  /* layered translucency: 1 = nearest the viewer, 3 = deepest */
+  --surface-1: rgba(16, 25, 47, 0.7);
+  --surface-2: rgba(12, 20, 38, 0.52);
+  --surface-3: rgba(9, 16, 31, 0.38);
+  --surface-raise: rgba(22, 33, 58, 0.66);
+  --surface-solid: #090f1e;
+  --panel: var(--surface-2);
+  --panel-glass: rgba(9, 15, 29, 0.74);
+  --panel-solid: var(--surface-solid);
 
-  /* luminous edge light (icy blue / cyan hairlines) */
-  --edge-light: rgba(125, 211, 252, 0.20);
-  --edge-glow: 0 0 0 1px rgba(56, 200, 255, 0.10), 0 0 24px rgba(34, 211, 238, 0.07);
+  /* glass edges */
+  --stroke: rgba(126, 172, 240, 0.115);
+  --stroke-soft: rgba(126, 172, 240, 0.06);
+  --stroke-strong: rgba(80, 200, 250, 0.36);
+  --panel-border: var(--stroke);
+  --panel-border-hover: var(--stroke-strong);
+  --highlight: inset 0 1px 0 rgba(255, 255, 255, 0.055);
+  --glass-blur: blur(20px) saturate(140%);
+  --edge-glow: 0 0 0 1px rgba(53, 214, 245, 0.1);
 
-  /* text — crisp white + cool silver */
-  --text: #f2f7ff;
-  --text-muted: #a3b4cf;
-  --text-dim: #7d8fa9;
-  --text-faint: #6b7d99;
+  /* text */
+  --text: #eef4ff;
+  --text-muted: #aabdd8;
+  --text-dim: #8fa2bd;
+  --text-faint: #788ca6;
 
-  /* accents — luminous cyan / electric blue (primary), ultraviolet (secondary) */
-  --accent: #22d3ee;
-  --accent-blue: #3b82f6;
-  --accent-2: #a78bfa;
-  --accent-soft: rgba(34, 211, 238, 0.10);
-  --violet: #a78bfa;
-  --violet-soft: rgba(167, 139, 250, 0.11);
-  --grad-brand: linear-gradient(115deg, #22d3ee 0%, #38bdf8 38%, #3b82f6 68%, #8b5cf6 100%);
-  --grad-text: linear-gradient(100deg, #a5f3fc 0%, #22d3ee 34%, #818cf8 72%, #c4b5fd 100%);
+  /* accents — electric cyan primary, violet secondary, restrained magenta */
+  --accent: #35d6f5;
+  --accent-blue: #4f8bff;
+  --accent-2: #9b8cff;
+  --accent-magenta: #e879c9;
+  --accent-soft: rgba(53, 214, 245, 0.1);
+  --violet: var(--accent-2);
+  --violet-soft: rgba(155, 140, 255, 0.11);
+  --grad-brand: linear-gradient(120deg, #35d6f5 0%, #4f8bff 52%, #9b8cff 100%);
+  --grad-text: linear-gradient(100deg, #a9ecff 0%, #6ec8ff 42%, #a99bff 100%);
+  --grad-hairline: linear-gradient(90deg, transparent, rgba(80, 216, 250, 0.55) 22%, rgba(155, 140, 255, 0.45) 68%, transparent);
   --grad-hero:
-    radial-gradient(1200px 560px at 86% -14%, rgba(139, 92, 246, 0.22), transparent 62%),
-    radial-gradient(950px 500px at 2% -6%, rgba(34, 211, 238, 0.16), transparent 58%),
-    radial-gradient(820px 560px at 50% 116%, rgba(59, 130, 246, 0.14), transparent 62%),
-    linear-gradient(180deg, rgba(6, 11, 26, 0.35), rgba(2, 4, 11, 0.55));
+    radial-gradient(760px 320px at 88% -18%, rgba(155, 140, 255, 0.16), transparent 64%),
+    radial-gradient(620px 280px at 4% -12%, rgba(53, 214, 245, 0.13), transparent 62%);
 
-  /* nebula + starfield atmosphere */
-  --nebula-a: rgba(34, 211, 238, 0.055);
-  --nebula-b: rgba(139, 92, 246, 0.07);
-  --nebula-c: rgba(59, 130, 246, 0.055);
-  --star-color: rgba(190, 230, 255, 0.85);
-  --grid-line: rgba(94, 210, 255, 0.045);
+  --glow-cyan: 0 0 18px rgba(53, 214, 245, 0.2);
+  --glow-violet: 0 0 18px rgba(155, 140, 255, 0.18);
+  --ring-glow: 0 0 12px rgba(53, 214, 245, 0.32);
 
-  /* glow — controlled */
-  --glow-cyan: 0 0 24px rgba(34, 211, 238, 0.22);
-  --glow-violet: 0 0 26px rgba(167, 139, 250, 0.20);
-  --glow-blue: 0 0 26px rgba(59, 130, 246, 0.22);
-  --ring-glow: 0 0 14px rgba(34, 211, 238, 0.38);
+  /* shadows — quiet depth, no bloom */
+  --shadow-1:
+    inset 0 1px 0 rgba(255, 255, 255, 0.075),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.28),
+    0 2px 4px rgba(2, 5, 12, 0.35),
+    0 16px 34px -20px rgba(0, 0, 0, 0.9);
+  --shadow-2:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+    0 4px 10px rgba(2, 5, 12, 0.4),
+    0 34px 70px -32px rgba(0, 0, 0, 0.96);
+  --shadow-3:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 40px 90px -34px rgba(0, 0, 0, 1),
+    0 0 0 1px rgba(80, 200, 250, 0.09);
+  --shadow-card: var(--shadow-1);
+  --shadow-pop: var(--shadow-2);
+  /* lifted sheen that reads as a glass top edge */
+  --sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.012) 26%, transparent 62%);
+  --inner-rim: inset 0 0 0 1px rgba(255, 255, 255, 0.03);
 
-  /* status — restrained */
-  --fake: #fb7185;      --fake-soft: rgba(251, 113, 133, 0.12);
-  --genuine: #34d399;   --genuine-soft: rgba(52, 211, 153, 0.12);
-  --amber: #fbbf24;     --amber-soft: rgba(251, 191, 36, 0.12);
+  /* status */
+  --fake: #ff6b81;
+  --fake-soft: rgba(255, 107, 129, 0.11);
+  --genuine: #35d39a;
+  --genuine-soft: rgba(53, 211, 154, 0.11);
+  --amber: #ffb84d;
+  --amber-soft: rgba(255, 184, 77, 0.11);
   --suspicious: var(--amber);
   --suspicious-soft: var(--amber-soft);
 
-  --chart-grid: rgba(94, 210, 255, 0.08);
-  --input-bg: rgba(3, 7, 18, 0.72);
-  --code-bg: rgba(94, 210, 255, 0.05);
-  --scroll-thumb: rgba(94, 210, 255, 0.22);
-  --selection: rgba(34, 211, 238, 0.30);
+  --chart-grid: rgba(126, 172, 240, 0.09);
+  --input-bg: rgba(4, 8, 18, 0.6);
+  --code-bg: rgba(126, 172, 240, 0.055);
+  --scroll-thumb: rgba(126, 172, 240, 0.2);
+  --selection: rgba(53, 214, 245, 0.26);
+
+  --grid-line: rgba(126, 172, 240, 0.05);
+  --nebula-a: rgba(53, 214, 245, 0.05);
+  --nebula-b: rgba(155, 140, 255, 0.055);
+  --star-color: rgba(200, 230, 255, 0.7);
 }
 
-/* ---------- Light theme (kept readable & cohesive) ---------- */
+/* ---------- daylight glass ---------- */
 [data-theme='light'] {
   color-scheme: light;
 
-  --bg: #eef2f9;
+  --bg: #f4f7fc;
   --bg-soft: #ffffff;
-  --space-navy: #e7edf8;
 
-  --glass-1: rgba(255, 255, 255, 0.90);
-  --glass-2: rgba(255, 255, 255, 0.78);
-  --glass-3: rgba(255, 255, 255, 0.60);
-  --panel: var(--glass-2);
+  --surface-1: rgba(255, 255, 255, 0.86);
+  --surface-2: rgba(255, 255, 255, 0.72);
+  --surface-3: rgba(255, 255, 255, 0.54);
+  --surface-solid: #ffffff;
+  --panel: var(--surface-2);
+  --panel-glass: rgba(255, 255, 255, 0.8);
   --panel-solid: #ffffff;
-  --panel-glass: rgba(255, 255, 255, 0.84);
-  --panel-border: rgba(15, 33, 66, 0.10);
-  --panel-border-hover: rgba(8, 145, 178, 0.45);
-  --glass-blur: blur(16px) saturate(140%);
-  --edge-light: rgba(8, 145, 178, 0.16);
-  --edge-glow: 0 0 0 1px rgba(8, 145, 178, 0.08), 0 8px 24px rgba(8, 145, 178, 0.06);
 
-  --text: #0c1730;
-  --text-muted: #4d5d7a;
-  --text-dim: #5f708c;
-  --text-faint: #75839d;
+  --stroke: rgba(17, 34, 66, 0.1);
+  --stroke-soft: rgba(17, 34, 66, 0.05);
+  --stroke-strong: rgba(6, 128, 165, 0.42);
+  --panel-border: var(--stroke);
+  --panel-border-hover: var(--stroke-strong);
+  --highlight: inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --glass-blur: blur(16px) saturate(130%);
+  --edge-glow: 0 0 0 1px rgba(6, 128, 165, 0.07);
 
-  --accent: #0891b2;
+  --text: #0b1731;
+  --text-muted: #4c5d7c;
+  --text-dim: #5d6f8d;
+  --text-faint: #71809a;
+
+  --accent: #0687ad;
   --accent-blue: #2563eb;
-  --accent-2: #7c3aed;
-  --accent-soft: rgba(8, 145, 178, 0.10);
-  --violet: #7c3aed;
-  --violet-soft: rgba(124, 58, 237, 0.09);
-  --grad-brand: linear-gradient(115deg, #0891b2 0%, #2563eb 55%, #7c3aed 100%);
-  --grad-text: linear-gradient(100deg, #0e7490 0%, #2563eb 55%, #7c3aed 100%);
+  --accent-2: #7c4dff;
+  --accent-magenta: #c026a3;
+  --accent-soft: rgba(6, 135, 173, 0.1);
+  --violet: var(--accent-2);
+  --violet-soft: rgba(124, 77, 255, 0.09);
+  --grad-brand: linear-gradient(120deg, #0687ad 0%, #2563eb 55%, #7c4dff 100%);
+  --grad-text: linear-gradient(100deg, #0b6c8c 0%, #2563eb 55%, #7c4dff 100%);
+  --grad-hairline: linear-gradient(90deg, transparent, rgba(6, 135, 173, 0.4) 25%, rgba(124, 77, 255, 0.32) 70%, transparent);
   --grad-hero:
-    radial-gradient(1000px 460px at 86% -14%, rgba(124, 58, 237, 0.12), transparent 62%),
-    radial-gradient(860px 440px at 2% -6%, rgba(8, 145, 178, 0.10), transparent 58%);
+    radial-gradient(720px 300px at 88% -18%, rgba(124, 77, 255, 0.09), transparent 64%),
+    radial-gradient(600px 260px at 4% -12%, rgba(6, 135, 173, 0.08), transparent 62%);
 
-  --nebula-a: rgba(8, 145, 178, 0.05);
-  --nebula-b: rgba(124, 58, 237, 0.05);
-  --nebula-c: rgba(37, 99, 235, 0.045);
-  --star-color: transparent;
-  --grid-line: rgba(15, 33, 66, 0.04);
+  --glow-cyan: 0 6px 18px rgba(6, 135, 173, 0.14);
+  --glow-violet: 0 6px 18px rgba(124, 77, 255, 0.13);
+  --ring-glow: 0 0 10px rgba(6, 135, 173, 0.22);
 
-  --glow-cyan: 0 8px 24px rgba(8, 145, 178, 0.14);
-  --glow-violet: 0 8px 24px rgba(124, 58, 237, 0.14);
-  --glow-blue: 0 8px 24px rgba(37, 99, 235, 0.14);
-  --ring-glow: 0 0 12px rgba(8, 145, 178, 0.25);
+  --shadow-1: 0 1px 2px rgba(15, 23, 42, 0.05), 0 14px 30px -20px rgba(15, 23, 42, 0.24);
+  --shadow-2: 0 2px 4px rgba(15, 23, 42, 0.06), 0 28px 60px -30px rgba(15, 23, 42, 0.32);
+  --shadow-3: 0 3px 8px rgba(15, 23, 42, 0.07), 0 36px 70px -32px rgba(15, 23, 42, 0.34);
+  --shadow-card: var(--shadow-1);
+  --shadow-pop: var(--shadow-2);
+  --sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.12) 30%, transparent 64%);
+  --inner-rim: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  --surface-raise: rgba(255, 255, 255, 0.9);
 
-  --fake: #e11d48;      --fake-soft: rgba(225, 29, 72, 0.09);
-  --genuine: #059669;   --genuine-soft: rgba(5, 150, 105, 0.09);
-  --amber: #d97706;     --amber-soft: rgba(217, 119, 6, 0.10);
+  --fake: #d81f45;
+  --fake-soft: rgba(216, 31, 69, 0.08);
+  --genuine: #067f5c;
+  --genuine-soft: rgba(6, 127, 92, 0.09);
+  --amber: #b06a00;
+  --amber-soft: rgba(176, 106, 0, 0.09);
   --suspicious: var(--amber);
   --suspicious-soft: var(--amber-soft);
 
-  --chart-grid: rgba(15, 33, 66, 0.08);
+  --chart-grid: rgba(17, 34, 66, 0.08);
   --input-bg: #ffffff;
-  --code-bg: rgba(15, 33, 66, 0.045);
-  --scroll-thumb: rgba(15, 33, 66, 0.20);
-  --selection: rgba(8, 145, 178, 0.20);
+  --code-bg: rgba(17, 34, 66, 0.04);
+  --scroll-thumb: rgba(17, 34, 66, 0.18);
+  --selection: rgba(6, 135, 173, 0.18);
 
-  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.05), 0 10px 30px rgba(15, 23, 42, 0.07);
-  --shadow-pop: 0 12px 40px rgba(15, 23, 42, 0.16);
+  --grid-line: rgba(17, 34, 66, 0.035);
+  --nebula-a: rgba(6, 135, 173, 0.04);
+  --nebula-b: rgba(124, 77, 255, 0.04);
+  --star-color: transparent;
 }

@@ -14,6 +14,18 @@
  */
 
 const KEY = 'afrd.xai.selection.v1';
+/** Set when the user clears the workspace, so a re-visit does not silently
+ *  re-adopt the newest record against their intent. */
+const DISMISSED_KEY = 'afrd.xai.dismissed.v1';
+
+/** Broadcast so every mounted page reading this store stays on one record. */
+export const SELECTION_EVENT = 'afrd:selection-change';
+
+function announce(selection) {
+  try {
+    window.dispatchEvent(new CustomEvent(SELECTION_EVENT, { detail: selection }));
+  } catch { /* non-browser environment */ }
+}
 
 const isObj = (v) => Boolean(v) && typeof v === 'object' && !Array.isArray(v);
 const nonEmpty = (v) => typeof v === 'string' && v.trim().length > 0;
@@ -86,6 +98,8 @@ export function saveSelection(sel) {
   }
   try {
     localStorage.setItem(KEY, JSON.stringify(sel));
+    localStorage.removeItem(DISMISSED_KEY);
+    announce(sel);
     return true;
   } catch {
     return false;
@@ -106,7 +120,16 @@ export function loadSelection() {
 }
 
 export function clearSelection() {
-  try { localStorage.removeItem(KEY); } catch { /* private mode */ }
+  try {
+    localStorage.removeItem(KEY);
+    localStorage.setItem(DISMISSED_KEY, '1');
+  } catch { /* private mode */ }
+  announce(null);
+}
+
+/** True when the user explicitly cleared the selection in this browser. */
+export function isSelectionDismissed() {
+  try { return localStorage.getItem(DISMISSED_KEY) === '1'; } catch { return false; }
 }
 
 /** Build a selection snapshot from an analysis result (single or batch entry). */
