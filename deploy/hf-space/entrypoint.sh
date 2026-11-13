@@ -26,14 +26,25 @@ echo "[entrypoint] Express API -> 0.0.0.0:${PORT} (ML_SERVICE_URL=${ML_SERVICE_U
 node /app/server/src/server.js &
 API_PID=$!
 
+STOPPING=0
 term() {
+  # A platform-initiated stop (docker stop, Space rebuild) must exit 0: a
+  # non-zero code is reported as a crash. Only a process that dies on its own
+  # is a failure worth restarting for.
+  STOPPING=1
   kill -TERM "${ML_PID}" "${API_PID}" 2>/dev/null || true
 }
 trap term TERM INT
 
-# Returns as soon as either process exits; the container then stops so the
-# platform restarts it instead of serving a half-dead stack.
+# Returns as soon as either process exits.
 wait -n "${ML_PID}" "${API_PID}" || true
+
+if [ "${STOPPING}" = "1" ]; then
+  echo "[entrypoint] stop signal received — shutting both services down"
+  wait || true
+  exit 0
+fi
+
 echo "[entrypoint] a service exited — stopping the container for a clean restart"
 term
 wait || true

@@ -49,6 +49,7 @@ Everything needed is baked into the image. Optional Space variables/secrets:
 | `MONGODB_DB` | `frd` | database name |
 | `ML_REQUEST_TIMEOUT_MS` | `60000` | per-attempt inference timeout |
 | `ML_MAX_RETRIES` | `2` | bounded retries on 429/502/503/504 |
+| `ML_MANAGE_ENGINE` | `off` | the entrypoint owns uvicorn; keep it `off` in a container so the API never spawns a second engine |
 
 ## Cold starts
 

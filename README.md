@@ -184,6 +184,34 @@ docker run --rm -p 7860:7860 frd-backend
 curl http://127.0.0.1:7860/api/health
 ```
 
+### Container facts (measured, not estimated)
+
+Built and run on a Linux Docker host: `frd-backend:latest`, 3.07 GB on disk / 862 MB
+compressed content, 18 build steps. Inside the container:
+
+| Fact | Value |
+|---|---|
+| FastAPI artifact load | `artifactsLoaded: true`, all 10 artifacts, `unresolvedStubs: []` |
+| Real prediction | `genuine`, `P(fake)=0.167`, trust 83, evidence with 7 items / 9 signals / attribution available |
+| Memory, idle with models loaded | `docker stats` 428 MiB; cgroup `memory.current` 1.25 GB (page cache included), FastAPI RSS 589 MB, Express 65 MB |
+| Memory, 10-review batch | `docker stats` 568 MiB working set; cgroup peak 1.42 GB (reclaimable page cache included) |
+| Restart | model reloads and predictions resume automatically |
+| Graceful stop | `docker stop` → exit 0 |
+
+`ML_MANAGE_ENGINE=off` is set in the image: the entrypoint owns uvicorn, so the API must
+not spawn a second engine. Without it the two engines collide on port 8501 and the
+container exits 1. Local development keeps the default (the API manages the engine).
+
+Sizing follows from those numbers: the working set is 428 MiB idle and **568 MiB during a
+10-review batch**, so a **512 MB instance OOMs** and 1 GB leaves thin headroom. 2 GB is the
+safe paid minimum; the free Hugging Face Space (16 GB) has ample room. The cgroup figures
+include reclaimable page cache from the model files, which is why they exceed the working
+set — the OOM decision is driven by the smaller working-set number.
+
+`ml/requirements.txt` pins scikit-learn 1.9.1 while the artifacts were pickled with 1.9.0,
+so the container logs `InconsistentVersionWarning` at load. Predictions work and match the
+locally verified outputs, but pinning 1.9.0 would silence the warning if you want a clean log.
+
 ## Deploy verification (Render)
 
 `render.yaml` declares two services, each health-checked by the platform:
