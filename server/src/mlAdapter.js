@@ -4,6 +4,7 @@
  * stacking ensemble) is NOT yet connected. No fake or random predictions are produced.
  */
 import { computeFeatures, ratingSentimentGap } from './services/analysisService.js';
+import { ensureModelService, isConnectionRefused, isRemoteUrl } from './mlSupervisor.js';
 
 export const REQUIRED_MODEL_INFO = {
   provider: 'python',                        // external Python inference service (not part of this app)
@@ -11,18 +12,196 @@ export const REQUIRED_MODEL_INFO = {
   requires: ['classifyReview(text, rating) -> { label, probabilities{fake,genuine}, confidence }']
 };
 
+/* Boot-time snapshots kept for existing imports; runtime decisions use
+   mlConfig(), which re-reads the environment on every call. */
 export const ADAPTER_MODE = process.env.ML_ADAPTER_MODE || 'none'; // 'none' | 'python-http'
 export const ML_SERVICE_URL = process.env.ML_SERVICE_URL || null;  // e.g. http://127.0.0.1:8501/predict
 
+const DEFAULTS = { timeoutMs: 60000, maxRetries: 2, retryBaseMs: 1000, retryCapMs: 15000, localBootWaitMs: 240000 };
+const LIMITS = { timeoutMs: [1000, 300000], maxRetries: [0, 5], retryBaseMs: [100, 15000], localBootWaitMs: [0, 600000] };
+
+function intFromEnv(name, fallback, [lo, hi]) {
+  const raw = process.env[name];
+  if (raw === undefined || raw === '') return fallback;
+  const n = Number(raw);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.min(hi, Math.max(lo, Math.round(n)));
+}
+
+/**
+ * Effective ML transport configuration.
+ *
+ * ML_REQUEST_TIMEOUT_MS — per-attempt budget. The default 60s is sized for a
+ *   hosted cold start (Sentence-BERT + the whole stack load; 75s+ measured
+ *   locally on a cold page cache), not for a warm request (0.3-1s).
+ * ML_MAX_RETRIES      — bounded 0-5; total attempts = retries + 1.
+ * ML_RETRY_BASE_MS    — exponential backoff base (doubles per attempt, capped).
+ * ML_LOCAL_BOOT_WAIT_MS — only used when the engine is local and this app owns it.
+ */
+/**
+ * Completes a bare service host with the documented POST /predict path.
+ * Pasting `https://frd-ml.onrender.com` (no path) would POST to `/` and get
+ * FastAPI's 404, surfacing as a confusing 502 ML_SERVICE_ERROR. An explicit
+ * path is preserved exactly, so a proxy or gateway prefix still works.
+ */
+export function normalizeMlUrl(raw) {
+  if (raw === undefined || raw === null || String(raw).trim() === '') return null;
+  const value = String(raw).trim();
+  let url;
+  try {
+    url = new URL(value);
+  } catch {
+    return value; // unparseable is reported as-is by the transport
+  }
+  if (url.pathname === '' || url.pathname === '/') url.pathname = '/predict';
+  else if (url.pathname.length > 1 && url.pathname.endsWith('/')) {
+    url.pathname = url.pathname.replace(/\/+$/, '');
+  }
+  return url.toString();
+}
+
+export function mlConfig() {
+  const mode = process.env.ML_ADAPTER_MODE || 'none';
+  const url = normalizeMlUrl(process.env.ML_SERVICE_URL);
+  return {
+    mode,
+    url,
+    remote: url ? isRemoteUrl(url) : false,
+    timeoutMs: intFromEnv('ML_REQUEST_TIMEOUT_MS', DEFAULTS.timeoutMs, LIMITS.timeoutMs),
+    maxRetries: intFromEnv('ML_MAX_RETRIES', DEFAULTS.maxRetries, LIMITS.maxRetries),
+    retryBaseMs: intFromEnv('ML_RETRY_BASE_MS', DEFAULTS.retryBaseMs, LIMITS.retryBaseMs),
+    retryCapMs: DEFAULTS.retryCapMs,
+    localBootWaitMs: intFromEnv('ML_LOCAL_BOOT_WAIT_MS', DEFAULTS.localBootWaitMs, LIMITS.localBootWaitMs)
+  };
+}
+
 export function modelStatus() {
-  const connected = ADAPTER_MODE === 'python-http' && Boolean(ML_SERVICE_URL);
+  const cfg = mlConfig();
+  const connected = cfg.mode === 'python-http' && Boolean(cfg.url);
   return {
     connected,
-    adapterMode: ADAPTER_MODE,
-    serviceUrl: ML_SERVICE_URL,
+    adapterMode: cfg.mode,
+    serviceUrl: cfg.url,
     integration: 'python-http',
+    transport: cfg.url ? (cfg.remote ? 'remote-http' : 'local-http') : null,
+    timeoutMs: cfg.timeoutMs,
+    maxRetries: cfg.maxRetries,
     expectedModelInfo: REQUIRED_MODEL_INFO
   };
+}
+
+/* ------------------------------------------------------------------ *
+ * Transport: bounded retries with exponential backoff
+ * ------------------------------------------------------------------ */
+// Transient upstream states only: overloaded (429) and gateway/boot states.
+// A 500 is a deterministic model error, so re-running inference would just
+// waste a cold-start budget without ever succeeding.
+const RETRYABLE_HTTP = new Set([429, 502, 503, 504]);
+// Transport failures worth another attempt: the peer is not answering yet.
+const TRANSIENT_TRANSPORT = new Set([
+  'ECONNREFUSED', 'ECONNRESET', 'ECONNABORTED', 'EPIPE', 'EHOSTUNREACH',
+  'ENOTFOUND', 'EAI_AGAIN', 'UND_ERR_SOCKET'
+]);
+
+export function serviceFailure(status, code, message, extra = {}) {
+  const e = new Error(message);
+  e.status = status;
+  e.code = code;
+  Object.assign(e, extra);
+  return e;
+}
+
+export function retryDelayMs(cfg, tryIndex) {
+  const base = cfg.retryBaseMs ?? DEFAULTS.retryBaseMs;
+  const cap = cfg.retryCapMs ?? DEFAULTS.retryCapMs;
+  return Math.min(cap, base * 2 ** Math.max(0, tryIndex - 1));
+}
+
+function isTimeoutError(err) {
+  const code = err?.cause?.code || err?.code;
+  return err?.name === 'TimeoutError' || err?.name === 'AbortError' ||
+    code === 'ETIMEDOUT' || code === 'UND_ERR_HEADERS_TIMEOUT' || code === 'UND_ERR_CONNECT_TIMEOUT';
+}
+
+/**
+ * Map a transport failure to an honest error. Timeouts get their own new 503
+ * code; unreachability keeps the documented 502 ML_SERVICE_UNREACHABLE contract
+ * that the frontend already renders as an error state (docs/ML_INTEGRATION.md).
+ */
+export function toUnavailableError(err, cfg) {
+  const code = err?.cause?.code || err?.code;
+  if (isTimeoutError(err)) {
+    return serviceFailure(503, 'ML_SERVICE_TIMEOUT',
+      `Model inference timed out after ${cfg.timeoutMs}ms (${cfg.url}).`, { retryable: true, cause: code || err?.name });
+  }
+  const transient = isConnectionRefused(err) || TRANSIENT_TRANSPORT.has(code);
+  return serviceFailure(502, 'ML_SERVICE_UNREACHABLE',
+    `Model service unreachable at ${cfg.url}${code ? ` (${code})` : ''}: ${err?.message || 'unknown error'}`,
+    { retryable: transient, cause: code });
+}
+
+/**
+ * A non-2xx reply always surfaces as 502 ML_SERVICE_ERROR with the upstream
+ * status attached, so existing clients see the same contract; `retryable` only
+ * decides whether the transport tries again first.
+ */
+export function toServiceError(status) {
+  return serviceFailure(502, 'ML_SERVICE_ERROR', `Model service responded ${status}`,
+    { httpStatus: status, retryable: RETRYABLE_HTTP.has(status) });
+}
+
+/**
+ * POST /predict with bounded retries. Each failure class is handled once and
+ * in order, so a request is never processed twice: retries happen only after a
+ * transport error or a retryable status, and a 200 short-circuits immediately.
+ * Concurrent duplicate work is also prevented upstream by the supervisor's
+ * single-flight state and by never retrying a 4xx (the request was understood).
+ */
+export async function postWithRetry(cfg, payload, deps = {}) {
+  const fetchImpl = deps.fetchImpl || globalThis.fetch;
+  const sleep = deps.sleep || ((ms) => new Promise((r) => setTimeout(r, ms)));
+  const ensureLocal = deps.ensureModelService || ensureModelService;
+  const attempts = Math.max(1, cfg.maxRetries + 1);
+
+  let tries = 0;
+  let localStartTried = false;
+  let lastErr = null;
+
+  while (tries < attempts) {
+    if (tries > 0) await sleep(retryDelayMs(cfg, tries));
+    tries += 1;
+
+    let response;
+    try {
+      response = await fetchImpl(cfg.url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: AbortSignal.timeout(cfg.timeoutMs)
+      });
+    } catch (err) {
+      lastErr = toUnavailableError(err, cfg);
+      // Local development only: the engine is a child process this app owns, so
+      // a REFUSED connection means "it is not running — start it", then retry.
+      // A reset/socket error means something IS listening and merely broke, so
+      // restarting Python would not help (and would stall on a long model boot).
+      // A hosted URL is never started from here (see mlSupervisor.isRemoteUrl).
+      if (!cfg.remote && isConnectionRefused(err) && !localStartTried) {
+        localStartTried = true;
+        const ready = await ensureLocal({ waitMs: cfg.localBootWaitMs });
+        if (ready) { tries -= 1; continue; }
+      }
+      if (!lastErr.retryable || tries >= attempts) throw lastErr;
+      continue;
+    }
+
+    if (response.ok) return response;
+
+    lastErr = toServiceError(response.status);
+    if (!lastErr.retryable || tries >= attempts) throw lastErr;
+  }
+
+  throw lastErr || serviceFailure(502, 'ML_SERVICE_UNREACHABLE', 'Model service unavailable.');
 }
 
 export async function predict({ text, rating }) {
@@ -30,26 +209,17 @@ export async function predict({ text, rating }) {
   const gap = ratingSentimentGap(text, Number(rating));
   const featuresOnly = { features, ratingSentimentGap: gap };
 
-  if (ADAPTER_MODE === 'python-http' && ML_SERVICE_URL) {
-    let response;
+  const cfg = mlConfig();
+
+  if (cfg.mode === 'python-http' && cfg.url) {
+    const response = await postWithRetry(cfg, { text: String(text), rating: Number(rating) });
+
+    let payload;
     try {
-      response = await fetch(ML_SERVICE_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: String(text), rating: Number(rating) }),
-        signal: AbortSignal.timeout(10000)
-      });
-    } catch (err) {
-      const e = new Error('Model service unreachable: ' + (err?.cause?.code || err?.name || 'error'));
-      e.status = 502; e.code = 'ML_SERVICE_UNREACHABLE';
-      throw e;
+      payload = await response.json();
+    } catch {
+      throw serviceFailure(502, 'ML_BAD_RESPONSE', 'Model service response was not valid JSON.');
     }
-    if (!response.ok) {
-      const e = new Error(`Model service responded ${response.status}`);
-      e.status = 502; e.code = 'ML_SERVICE_ERROR';
-      throw e;
-    }
-    const payload = await response.json();
     const raw = payload?.probabilities || null;
     if (!raw || typeof raw.fake !== 'number' || typeof raw.genuine !== 'number') {
       const e = new Error('Model service response missing numeric probabilities{fake,genuine}');

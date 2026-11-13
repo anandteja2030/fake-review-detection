@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { UNCATEGORIZED } from './productMeta.js';
+import { historyBackend, noteHistoryError } from './historyPersistence.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname, '..', 'data');
@@ -19,25 +20,175 @@ function ensureFile(file, initial) {
   }
 }
 
-export function loadHistory() { const f = historyFile(); ensureFile(f, []); return JSON.parse(fs.readFileSync(f, 'utf8')); }
+function readFileRecords() {
+  const file = historyFile();
+  ensureFile(file, []);
+  try {
+    const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (err) {
+    console.warn(`[history] unreadable history file (${file}): ${err.message}`);
+    return [];
+  }
+}
+
+/** mtime+size of the history file: detects edits made outside this process. */
+function stampOf(file) {
+  try {
+    const stat = fs.statSync(file);
+    return `${stat.mtimeMs}:${stat.size}`;
+  } catch {
+    return null;
+  }
+}
+
+function writeFileRecords(records) {
+  const file = historyFile();
+  try {
+    fs.mkdirSync(path.dirname(file), { recursive: true });
+    fs.writeFileSync(file, JSON.stringify(records, null, 2), 'utf8');
+    cacheStamp = stampOf(file);
+  } catch (err) {
+    // Without a durable backend the file IS the store, so a write failure must
+    // surface. With one, the record is still mirrored and the file is a cache.
+    if (!historyBackend()) throw err;
+    noteHistoryError(err);
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * In-memory copy + durable mirror
+ * ------------------------------------------------------------------ */
+let cache = null;                    // authoritative array once hydrated
+let cacheStamp = null;               // file mtime:size the cache was built from
+let hydration = null;                // in-flight first read (shared by callers)
+let mutations = Promise.resolve();   // serialises read-modify-write cycles
+let writeQueue = Promise.resolve();  // serialises mirror writes
+
+/**
+ * Load history once per process: from the durable backend when configured,
+ * otherwise from the local file. Later appends/clears update this copy, so the
+ * synchronous `loadHistory()` below stays usable inside route handlers.
+ */
+export async function ensureHistoryHydrated() {
+  if (cache) return cache;
+  if (!hydration) {
+    hydration = hydrate()
+      .catch((err) => {
+        noteHistoryError(err);
+        cache = cache ?? readFileRecords();
+        return cache;
+      })
+      .finally(() => { hydration = null; });
+  }
+  return hydration;
+}
+
+function setCache(records) {
+  cache = records;
+  cacheStamp = stampOf(historyFile());
+  return cache;
+}
+
+async function hydrate() {
+  const local = readFileRecords();
+  const backend = historyBackend();
+  if (!backend) return setCache(local);
+
+  let remote;
+  try {
+    remote = await backend.read();
+  } catch (err) {
+    noteHistoryError(err);
+    return setCache(local);
+  }
+
+  if (remote === null) {
+    // Fresh store: adopt the existing file so a running deployment's history
+    // migrates instead of vanishing the first time MONGODB_URI is configured.
+    try {
+      await backend.write(local);
+    } catch (err) {
+      noteHistoryError(err);
+    }
+    return setCache(local);
+  }
+
+  cache = remote;
+  writeFileRecords(remote); // keep the local copy warm for debugging/export
+  return setCache(remote);
+}
+
+/**
+ * Synchronous read of the current history (hydrate first in async handlers).
+ * An edit made to the JSON file outside this process wins: hand-editing the
+ * file stays a supported way to inspect or repair history.
+ */
+export function loadHistory() {
+  if (!cache) return readFileRecords();
+  const stamp = stampOf(historyFile());
+  if (stamp && cacheStamp && stamp !== cacheStamp) {
+    cache = readFileRecords();
+    cacheStamp = stamp;
+  }
+  return cache;
+}
+
+function persist(records) {
+  const backend = historyBackend();
+  if (!backend) return Promise.resolve();
+  // A failed mirror must never fail the request: the record really happened.
+  writeQueue = writeQueue.then(() => backend.write(records)).catch(noteHistoryError);
+  return writeQueue;
+}
+
+function mutate(fn) {
+  const run = mutations.then(fn, fn);
+  mutations = run.then(() => undefined, () => undefined);
+  return run;
+}
 
 export function appendHistory(record) {
-  const history = loadHistory();
-  history.push(record);
-  fs.writeFileSync(historyFile(), JSON.stringify(history, null, 2), 'utf8');
-  return record;
+  return mutate(async () => {
+    await ensureHistoryHydrated();
+    const next = [...(cache ?? []), record];
+    cache = next;
+    writeFileRecords(next);
+    await persist(next); // awaited: a 200 means the record is durable
+    return record;
+  });
 }
 
 /** Atomically append many records (single write) so batch results never interleave. */
 export function appendHistoryBatch(records) {
-  if (!records.length) return [];
-  const history = loadHistory();
-  history.push(...records);
-  fs.writeFileSync(historyFile(), JSON.stringify(history, null, 2), 'utf8');
-  return records;
+  if (!records.length) return Promise.resolve([]);
+  return mutate(async () => {
+    await ensureHistoryHydrated();
+    const next = [...(cache ?? []), ...records];
+    cache = next;
+    writeFileRecords(next);
+    await persist(next);
+    return records;
+  });
 }
 
-export function clearHistory() { fs.writeFileSync(historyFile(), '[]', 'utf8'); }
+export function clearHistory() {
+  return mutate(async () => {
+    await ensureHistoryHydrated();
+    cache = [];
+    writeFileRecords([]);
+    await persist([]);
+  });
+}
+
+/** Test-only: drop the in-process copy so the next read re-hydrates. */
+export function __resetHistoryForTests() {
+  cache = null;
+  cacheStamp = null;
+  hydration = null;
+  mutations = Promise.resolve();
+  writeQueue = Promise.resolve();
+}
 
 /**
  * Filter history by product category and/or verdict.

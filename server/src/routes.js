@@ -1,7 +1,8 @@
 import express from 'express';
 import { predict, modelStatus, validateAnalyzeInput } from './mlAdapter.js';
 import { noModelResult } from './services/analysisService.js';
-import { loadHistory, appendHistory, appendHistoryBatch, clearHistory, loadSamples, computeStats, filterHistory } from './services/historyStore.js';
+import { loadHistory, appendHistory, appendHistoryBatch, clearHistory, ensureHistoryHydrated, loadSamples, computeStats, filterHistory } from './services/historyStore.js';
+import { historyPersistenceStatus } from './services/historyPersistence.js';
 import { loadModelMetrics } from './services/metricsService.js';
 import { trustHistogram, ratingCounts, sentimentCounts } from './utils/statsUtils.js';
 import { serializeAnalysis } from './services/serializeAnalysis.js';
@@ -12,7 +13,13 @@ export function createApiRouter() {
   const api = express.Router();
 
   api.get('/health', (_req, res) => {
-    res.json({ status: 'ok', time: new Date().toISOString(), service: 'explainable-fake-review-detection-api' });
+    res.json({
+      status: 'ok',
+      time: new Date().toISOString(),
+      service: 'explainable-fake-review-detection-api',
+      // durable=true means history survives a redeploy (MONGODB_URI is set).
+      history: historyPersistenceStatus()
+    });
   });
 
   api.get('/model/status', (_req, res) => {
@@ -42,7 +49,8 @@ export function createApiRouter() {
     });
   });
 
-  api.get('/metrics/latest', (_req, res) => {
+  api.get('/metrics/latest', async (_req, res) => {
+    await ensureHistoryHydrated();
     const history = loadHistory();
     if (!history.length) {
       return res.status(404).json({
@@ -63,11 +71,13 @@ export function createApiRouter() {
     });
   });
 
-  api.get('/stats', (_req, res) => {
+  api.get('/stats', async (_req, res) => {
+    await ensureHistoryHydrated();
     res.json({ ...computeStats(loadHistory()), modelConnected: modelStatus().connected });
   });
 
-  api.get('/history', (req, res) => {
+  api.get('/history', async (req, res) => {
+    await ensureHistoryHydrated();
     const { category, verdict } = req.query;
     if (verdict && !['fake', 'genuine'].includes(verdict)) {
       return res.status(400).json({ error: 'INVALID_FILTER', message: 'verdict must be fake or genuine.' });
@@ -75,8 +85,8 @@ export function createApiRouter() {
     res.json(filterHistory(loadHistory(), { category: category || undefined, verdict: verdict || undefined }));
   });
 
-  api.delete('/history', (_req, res) => {
-    clearHistory();
+  api.delete('/history', async (_req, res) => {
+    await clearHistory();
     res.status(204).end();
   });
 
@@ -90,7 +100,7 @@ export function createApiRouter() {
     const t0 = Date.now();
     try {
       const result = await predict({ text, rating }); // throws ML_NOT_CONNECTED when adapter mode is 'none'
-      appendHistory({
+      await appendHistory({
         id: 'h_' + Math.random().toString(36).slice(2, 10),
         text: text.slice(0, 200),
         rating,
@@ -133,7 +143,7 @@ export function createApiRouter() {
     });
     try {
       const { batchId, results, records } = await runBatch(entries);
-      appendHistoryBatch(records);
+      await appendHistoryBatch(records);
       const resultMap = new Map(results.map((r) => [r.index, r]));
       const all = reviews.map((_, i) => resultMap.get(i) || invalid.find((v) => v.index === i));
       const completed = all.filter((r) => r.status === 'completed' && r.analysis?.prediction);

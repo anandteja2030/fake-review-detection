@@ -1,0 +1,110 @@
+# Render blueprint — two independent services for Fake Review Detection.
+#
+# NOTE: the recommended zero-cost deployment is the single-container Hugging
+# Face Space (Dockerfile + deploy/hf-space/, 16 GB free CPU) described in
+# README.md. This blueprint is the alternative for a split deployment, and
+# frd-ml below needs the paid 2 GB plan: the free 512 MB instance cannot load
+# the model stack.
+#
+#   frd-ml   FastAPI inference (Python 3.12). Needs 2 GB: torch + transformers +
+#            sentence-transformers + sklearn/numpy peak near 1.2 GB while the
+#            10 saved artifacts load. Do NOT downgrade it to the 512 MB plan.
+#   frd-api  Express API (Node 20). Small, owns no model, calls frd-ml over HTTP.
+#
+# Values marked `sync: false` are intentionally NOT in this file — enter them in
+# the Render dashboard after the first deploy:
+#   * frd-api  ML_SERVICE_URL   = https://<frd-ml host>/predict
+#   * frd-api  MONGODB_URI      = MongoDB Atlas free M0 connection string.
+#
+# ALLOWED_ORIGINS is not a manual value: it ships below with the GitHub Pages
+# origin, which is public and stable. Append more origins comma-separated in
+# the dashboard only if the UI is also served from somewhere else.
+#
+# Cost: frd-api runs on Render's free instance, so the whole project is free.
+# frd-ml CANNOT: the free instance is 512 MB and the model stack needs ~1.2 GB.
+#                                 Without it history resets on every deploy.
+#   * GitHub repo variable VITE_API_BASE = https://<frd-api host>/api, then
+#     re-run the Pages workflow: it is baked in at frontend build time.
+#
+# Prediction history: Render's filesystem is ephemeral, so by default history
+# lives only for the life of the instance. Set MONGODB_URI (Atlas free M0) and
+# GET /api/history survives restarts and redeploys; the API reports
+# {"history":{"durable":true}} on /api/health. A paid Render disk is NOT
+# required and NOT configured here; if you prefer one instead, attach it to
+# frd-api at /var/data and set AFRD_HISTORY_FILE=/var/data/prediction_history.json
+# (a disk also pins the service to one instance).
+services:
+  - type: web
+    name: frd-ml
+    runtime: python
+    plan: standard
+    region: oregon
+    rootDir: ml
+    healthCheckPath: /health
+    # ml/requirements.txt is the portable pin set for non-Windows hosts;
+    # ml/requirements.lock.txt is a Windows x64 freeze and must not be used to
+    # build this Linux service. torch is installed first from the CPU wheel
+    # index so no CUDA packages are pulled, then the encoder and the VADER
+    # lexicon are cached at build time so boots do not depend on the network.
+    buildCommand: >-
+      pip install --index-url https://download.pytorch.org/whl/cpu torch==2.15.0 &&
+      pip install -r requirements.txt &&
+      python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')" &&
+      python -c "import nltk; nltk.download('vader_lexicon')"
+    startCommand: uvicorn serve:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.5"
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: MODEL_DIR
+        value: models
+      - key: MODEL_ID
+        value: frd-stack-v1
+      - key: MODEL_VERSION
+        value: "1.0.0"
+      - key: EMBEDDING_MODEL
+        value: all-MiniLM-L6-v2
+      - key: HF_HOME
+        value: /opt/render/project/.cache/huggingface
+      - key: NLTK_DATA
+        value: /opt/render/project/.cache/nltk
+
+  - type: web
+    name: frd-api
+    runtime: node
+    # Free instance: 0.1 CPU / 512 MB, one instance, spins down after 15 idle
+    # minutes (the next request waits about a minute for the boot). 0.5c-512mb
+    # ($7/mo) removes that cold start.
+    plan: free
+    region: oregon
+    rootDir: .
+    healthCheckPath: /api/health
+    buildCommand: npm ci
+    startCommand: node server/src/server.js
+    numInstances: 1
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: ML_ADAPTER_MODE
+        value: python-http
+      - key: ML_SERVICE_URL
+        sync: false
+      - key: ML_REQUEST_TIMEOUT_MS
+        value: "60000"
+      - key: ML_MAX_RETRIES
+        value: "2"
+      - key: ML_RETRY_BASE_MS
+        value: "1000"
+      # CORS allowlist for the browser. Exact origins, no trailing slash: this
+      # is the GitHub Pages site that calls the API.
+      - key: ALLOWED_ORIGINS
+        value: https://anandteja2030.github.io
+      - key: BATCH_MAX_REVIEWS
+        value: "10"
+      # Durable history (MongoDB Atlas free M0). Leave unset to keep history
+      # in the instance filesystem only — it is lost on the next deploy.
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB
+        value: frd

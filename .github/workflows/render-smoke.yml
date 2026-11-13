@@ -1,0 +1,55 @@
+name: Smoke check deployed Render pair
+
+# Scheduled end-to-end check of the deployed API + ML service
+# (scripts/smoke-render.mjs): health, real prediction with evidence, input
+# rejection, and that an unreachable ML host fails honestly.
+#
+# Until the deployment exists this workflow stays green and prints a notice.
+# Configure it under Settings -> Secrets and variables -> Actions -> Variables:
+#   SMOKE_API_BASE = https://<frd-api host>       (a trailing /api is accepted)
+#   SMOKE_ML_BASE  = https://<frd-ml host>        (optional; skips the ML health check)
+#
+# Each run records one real analysis on the deployed API, so the deployed
+# history grows by one record per run.
+on:
+  schedule:
+    - cron: '0 6 * * *' # daily at 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: render-smoke
+  cancel-in-progress: false
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      # npm workspaces: the only lockfile lives at the repository root.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      # The smoke script itself only uses Node built-ins, but its
+      # unreachable-ML check boots server/src/server.js, which needs the
+      # workspace dependencies (express, cors, mongodb).
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check the deployed pair
+        env:
+          SMOKE_API_BASE: ${{ vars.SMOKE_API_BASE }}
+          SMOKE_ML_BASE: ${{ vars.SMOKE_ML_BASE }}
+        run: |
+          if [ -z "$SMOKE_API_BASE" ]; then
+            echo "::notice title=Deploy smoke check skipped::SMOKE_API_BASE is not set. Add the repository variables SMOKE_API_BASE (https://<frd-api host>) and SMOKE_ML_BASE (https://<frd-ml host>) to enable this check."
+            exit 0
+          fi
+          node scripts/smoke-render.mjs --timeout 180

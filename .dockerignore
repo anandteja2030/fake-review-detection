@@ -1,0 +1,15 @@
+.git
+.gitignore
+.github
+node_modules
+**/node_modules
+frontend
+screenshots
+ml/.venv
+.venv
+**/__pycache__
+**/*.pyc
+*.log
+.cloud-attachments
+docs
+package-lock.json

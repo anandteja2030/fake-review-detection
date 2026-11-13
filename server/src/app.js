@@ -15,8 +15,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
  */
 export function createApp(opts = {}) {
   const staticDir = opts.staticDir || path.resolve(__dirname, '../../frontend/dist');
+  // Origins are matched byte-for-byte against the browser's Origin header,
+  // which never has a trailing slash, so `https://site/` in ALLOWED_ORIGINS
+  // would silently never match and the browser would report a CORS failure.
   const allowedOrigins = (opts.allowedOrigins ?? process.env.ALLOWED_ORIGINS ?? '')
-    .split(',').map((s) => s.trim()).filter(Boolean);
+    .split(',').map((s) => s.trim().replace(/\/+$/, '')).filter(Boolean);
 
   const app = express();
   app.use(cors(allowedOrigins.length ? { origin: allowedOrigins } : {}));

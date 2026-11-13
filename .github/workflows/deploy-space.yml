@@ -1,0 +1,66 @@
+name: Deploy backend to Hugging Face Space
+
+# Publishes the single-container backend (FastAPI + Express) to a Docker Space.
+# Free CPU Spaces give 16 GB of RAM, which is what the model stack needs; a
+# 512 MB instance cannot load it.
+#
+# Required configuration:
+#   Secret     HF_TOKEN   write token from https://huggingface.co/settings/tokens
+#   Variable   HF_SPACE   owner/space, e.g. anandteja2030/fake-review-detection-api
+# While either is missing the workflow reports a notice and does nothing.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'ml/**'
+      - 'server/**'
+      - 'Dockerfile'
+      - 'deploy/hf-space/**'
+      - '.github/workflows/deploy-space.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hf-space
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      HF_TOKEN: ${{ secrets.HF_TOKEN }}
+      HF_SPACE: ${{ vars.HF_SPACE }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install huggingface_hub
+        run: pip install -U "huggingface_hub>=0.34"
+
+      - name: Report missing configuration
+        if: ${{ env.HF_TOKEN == '' || env.HF_SPACE == '' }}
+        run: |
+          echo "::notice title=Space deploy skipped::Set the HF_TOKEN secret and the HF_SPACE variable (owner/space) to publish the backend."
+
+      # One staged upload = one commit = one Space rebuild. The Space root must
+      # hold the Dockerfile, the Space card as README.md, and the code it copies.
+      - name: Publish to the Space
+        if: ${{ env.HF_TOKEN != '' && env.HF_SPACE != '' }}
+        run: |
+          set -euo pipefail
+          STAGE="$(mktemp -d)"
+          mkdir -p "$STAGE/deploy/hf-space"
+          cp Dockerfile "$STAGE/Dockerfile"
+          cp deploy/hf-space/README.md "$STAGE/README.md"
+          cp deploy/hf-space/entrypoint.sh "$STAGE/deploy/hf-space/entrypoint.sh"
+          cp -r ml "$STAGE/ml"
+          cp -r server "$STAGE/server"
+          rm -rf "$STAGE/ml/.venv" "$STAGE/ml/__pycache__" "$STAGE/server/node_modules"
+          hf upload "$HF_SPACE" "$STAGE" . --repo-type space
+          echo "::notice title=Space updated::https://huggingface.co/spaces/$HF_SPACE — wait for the build, then check https://<space-host>/api/health"

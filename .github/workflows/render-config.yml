@@ -1,0 +1,52 @@
+name: Validate Render blueprint
+
+# Fails fast on a broken render.yaml before anyone deploys it: the file is
+# checked against Render's published Blueprint JSON Schema (vendored under
+# scripts/schema/ so this job needs no network) plus the project's own rules
+# (2 GB ML instance, ML_SERVICE_URL entered manually, no paid disk).
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'render.yaml'
+      - 'scripts/validate-render-yaml.mjs'
+      - 'scripts/schema/**'
+      - 'server/tests/renderConfig.test.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/render-config.yml'
+  pull_request:
+    paths:
+      - 'render.yaml'
+      - 'scripts/validate-render-yaml.mjs'
+      - 'scripts/schema/**'
+      - 'server/tests/renderConfig.test.js'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/render-config.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # npm workspaces: the only lockfile lives at the repository root.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate render.yaml against the Render Blueprint schema
+        run: npm run validate:render
+
+      - name: Check project rules for the blueprint
+        run: node --test server/tests/renderConfig.test.js

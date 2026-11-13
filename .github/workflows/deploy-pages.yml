@@ -23,6 +23,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      # A static host has no backend. Without VITE_API_BASE the bundle calls
+      # https://<owner>.github.io/<repo>/api, which answers GET with 404 and
+      # POST with 405, so fail here instead of publishing a broken site.
+      - name: Require VITE_API_BASE
+        if: ${{ vars.VITE_API_BASE == '' }}
+        run: |
+          echo "::error title=VITE_API_BASE is not set::The Pages bundle would call /api on github.io, which has no backend (404 on GET, 405 on POST). Set Settings -> Secrets and variables -> Actions -> Variables -> VITE_API_BASE = https://<your-api-host>/api, then re-run this workflow."
+          exit 1
+
       # npm workspaces: the only lockfile lives at the repository root.
       - uses: actions/setup-node@v4
         with:
