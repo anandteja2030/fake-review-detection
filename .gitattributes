@@ -1,0 +1,8 @@
+# Linux containers read these files literally: a CRLF shebang fails with
+# `env: 'bash\r': No such file or directory`. Keep them LF in every checkout.
+*.sh            text eol=lf
+*.bash          text eol=lf
+Dockerfile      text eol=lf
+.dockerignore   text eol=lf
+*.yml           text eol=lf
+*.yaml          text eol=lf

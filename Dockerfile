@@ -67,7 +67,10 @@ COPY server/ server/
 RUN cd /app/server && npm install --omit=dev --no-audit --no-fund
 
 COPY deploy/hf-space/entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
+# Normalize line endings before making it executable: a Windows checkout (or
+# git archive with core.autocrlf=true) stores CRLF, and the kernel then fails
+# with `env: 'bash\r': No such file or directory` (exit 127).
+RUN sed -i 's/\r$//' /app/entrypoint.sh && chmod +x /app/entrypoint.sh
 
 EXPOSE 7860
 
