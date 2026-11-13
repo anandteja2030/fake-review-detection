@@ -54,6 +54,23 @@ export function adapterEnabled() {
   return (process.env.ML_ADAPTER_MODE || 'none') === 'python-http';
 }
 
+/**
+ * Who owns the Python engine's lifecycle?
+ *
+ * Default (env unset): this process does — right for local development, where
+ * `scripts/start-all.sh` and the API share one machine.
+ *
+ * `ML_MANAGE_ENGINE=off`: the platform does. That is the container case: the
+ * entrypoint starts uvicorn, so ML_SERVICE_URL is loopback but this process must
+ * NOT spawn a second engine — it would collide on the port and take the
+ * container down. The adapter still talks to the URL; it simply never starts
+ * anything.
+ */
+export function engineManagementEnabled() {
+  const value = String(process.env.ML_MANAGE_ENGINE || '').trim().toLowerCase();
+  return !['off', 'false', '0', 'no'].includes(value);
+}
+
 /** Resolved target, re-read from env on every call so a deploy can change it. */
 export function serviceTarget(url = process.env.ML_SERVICE_URL || DEFAULT_SERVICE_URL) {
   let parsed;
@@ -150,6 +167,10 @@ async function waitForHealthy(timeoutMs) {
 
 function spawnService() {
   if (state.child) return true; // one boot at a time
+  if (!engineManagementEnabled()) {
+    log('ML_MANAGE_ENGINE=off — this process never starts the engine (the platform owns it).');
+    return false;
+  }
   const target = serviceTarget();
   if (target.remote) {
     // Hosted engine: the platform starts and restarts it, not this process.
@@ -257,6 +278,16 @@ export function ensureModelService({ waitMs = 30000 } = {}) {
       return ok;
     }
 
+    if (!engineManagementEnabled()) {
+      // The container entrypoint starts the engine: wait for its /health, never spawn.
+      if (waitMs <= 0) return false;
+      const managed = await waitForHealthy(waitMs);
+      log(managed
+        ? `engine ${target.host} healthy (management disabled).`
+        : `engine ${target.host} not healthy after ${Math.round(waitMs / 1000)}s (management disabled).`);
+      return managed;
+    }
+
     if (state.failures >= MAX_FAILED_STARTS) return false;
 
     // Engine already booting (ours, or another process holding the port): wait, never spawn twice.
@@ -291,6 +322,10 @@ export function ensureModelService({ waitMs = 30000 } = {}) {
 export function startSupervisor({ intervalMs = 5000 } = {}) {
   const target = serviceTarget();
   if (!adapterEnabled() || state.watcher) return state.watcher;
+  if (!engineManagementEnabled()) {
+    log(`ML_MANAGE_ENGINE=off — engine lifecycle is owned elsewhere; not watching ${target.healthUrl}.`);
+    return null;
+  }
   if (target.remote) {
     // Hosted ML: no spawned child, no watchdog, no port probing on the far side.
     log(`remote engine (${target.host}) — local spawning and watching disabled.`);
@@ -320,8 +355,9 @@ export function supervisorStatus() {
   const target = serviceTarget();
   return {
     enabled: adapterEnabled(),
+    managed: engineManagementEnabled(),
     remote: target.remote,
-    canSpawn: !target.remote,
+    canSpawn: !target.remote && engineManagementEnabled(),
     healthUrl: target.healthUrl,
     booting: isBooting(),
     restarts: state.spawnCount,

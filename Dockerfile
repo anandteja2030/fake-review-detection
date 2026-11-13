@@ -35,6 +35,7 @@ ENV PYTHONUNBUFFERED=1 \
     ML_ADAPTER_MODE=python-http \
     ML_SERVICE_URL=http://127.0.0.1:8501/predict \
     ML_SERVICE_PORT=8501 \
+    ML_MANAGE_ENGINE=off \
     ALLOWED_ORIGINS=https://anandteja2030.github.io \
     PORT=7860
 
