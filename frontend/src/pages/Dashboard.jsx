@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useFetch } from '../hooks/useModels.js';
-import { api } from '../api/client.js';
+import { api, API_BASE } from '../api/client.js';
 import StateBlock from '../components/ui/StateBlock.jsx';
 import Banner from '../components/ui/Banner.jsx';
 import NeuralCore from '../components/hero/NeuralCore.jsx';
@@ -166,7 +166,10 @@ export default function Dashboard({ modelStatus }) {
           <div className="dash-banner">
             <StateBlock kind="error" title="Could not reach the API"
               action={<button className="btn btn-primary btn-sm" onClick={reload}>Retry</button>}>
-              {error.message} — make sure the backend is running on port 4000.
+              {error.message}{' — '}
+              {API_BASE.startsWith('/')
+                ? 'the API is served by this origin, so the backend process is not running or not proxied.'
+                : `the API at ${API_BASE} could not be reached; check that it is deployed and allows this site\'s origin.`}
             </StateBlock>
           </div>
         )}
