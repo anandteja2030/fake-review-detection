@@ -41,7 +41,11 @@ jobs:
       # unreachable-ML check boots server/src/server.js, which needs the
       # workspace dependencies (express, cors, mongodb).
       - name: Install dependencies
-        run: npm ci
+        env:
+          # The site runs in the browser, so the Node runtime is never used; this
+          # skips a CUDA download whose URL 404s on the Linux runners.
+          ONNXRUNTIME_NODE_INSTALL_CUDA: skip
+        run: npm ci --no-audit --no-fund
 
       - name: Check the deployed pair
         env:

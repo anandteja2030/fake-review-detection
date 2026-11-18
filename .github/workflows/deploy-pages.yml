@@ -38,17 +38,16 @@ jobs:
       # npm workspaces: the only lockfile lives at the repository root.
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 20
           cache: npm
           cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        run: |
-          # The lockfile is maintained with the npm that ships with Node 24.
-          npm ci --no-audit --no-fund || {
-            echo "::warning::npm ci could not satisfy the lockfile in CI; falling back to npm install"
-            npm install --no-audit --no-fund
-          }
+        env:
+          # The site runs in the browser, so the Node runtime is never used; this
+          # skips a CUDA download whose URL 404s on the Linux runners.
+          ONNXRUNTIME_NODE_INSTALL_CUDA: skip
+        run: npm ci --no-audit --no-fund
 
       - name: Build static site
         run: npm run build
