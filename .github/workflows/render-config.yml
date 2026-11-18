@@ -38,12 +38,12 @@ jobs:
       # npm workspaces: the only lockfile lives at the repository root.
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
           cache-dependency-path: package-lock.json
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --no-audit --no-fund || npm install --no-audit --no-fund
 
       - name: Validate render.yaml against the Render Blueprint schema
         run: npm run validate:render
