@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "description": "Evaluation metrics reported by the project author from their existing ML project.",
+    "provenance": "user-provided",
+    "independentlyVerified": false,
+    "note": "Stored and displayed exactly as provided. This application does not recompute or fabricate these values."
+  },
+  "accuracy": 94.5,
+  "precision": 92.38,
+  "recall": 97.00,
+  "f1Score": 94.63,
+  "rocAuc": 98.81,
+  "confusionMatrix": { "TN": 552, "FP": 48, "FN": 18, "TP": 582 },
+  "datasetNote": "Dataset details are owned by the original ML project and are intentionally not represented here."
+}

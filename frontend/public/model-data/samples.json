@@ -1,0 +1,8 @@
+[
+  { "id": "s1", "label": "Promotional 5-star", "rating": 5, "text": "Amazing product! Highly recommended. Excellent quality and best purchase ever!" },
+  { "id": "s2", "label": "Detailed 4-star", "rating": 4, "text": "Bought this coffee grinder three weeks ago. The burrs feel solid and the grind is even at medium settings, though it struggles slightly with oily beans. Cleanup takes about two minutes. Overall a worthwhile upgrade from my old blade grinder." },
+  { "id": "s3", "label": "Critical 1-star", "rating": 1, "text": "The hinge cracked after four days of normal use and customer service never replied to my two emails. Returning it and would not recommend this to anyone." },
+  { "id": "s4", "label": "Mixed 3-star", "rating": 3, "text": "The screen is bright and the battery lasts a full day, but the speakers sound tinny at higher volume and the charger included is only 10W. You get what you pay for, mostly." },
+  { "id": "s5", "label": "Enthusiastic 5-star", "rating": 5, "text": "This is absolutely the best backpack I have ever owned. The zippers glide smoothly, the water bottle pockets actually fit large bottles, and after six months of daily commuting it shows zero wear. Definitely worth the price." },
+  { "id": "s6", "label": "Vague 5-star", "rating": 5, "text": "Great great product!!! BEST purchase, highly recommended, buy it now!!!" }
+]

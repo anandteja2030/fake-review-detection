@@ -136,6 +136,45 @@ node server/src/server.js     # serves /assets/* from frontend/dist, SPA fallbac
 - **Secrets** — only the optional `MONGODB_URI` connection string, entered in the
   Render dashboard. Nothing else needs to be injected.
 
+## Zero-backend deployment (recommended): inference in the browser
+
+The GitHub Pages build runs the trained models itself. There is no API to deploy, nothing
+to wake up, no cold start after the first visit and no account to configure — the public
+URL works for anyone, indefinitely, at zero cost.
+
+| Piece | Where it runs |
+|---|---|
+| React app | GitHub Pages (static) |
+| Trained stack (TF-IDF, SBERT, LR + XGBoost + LightGBM, meta-LR) | the visitor's browser (WebAssembly) |
+
+`frontend/public/model-data/` (~20 MB) is generated from `ml/models` by
+`scripts/export-browser-model.py`; nothing is re-fitted. The browser reproduces the exact
+pipeline: `clean_text` -> word + char_wb TF-IDF -> all-MiniLM-L6-v2 embeddings
+(transformers.js) -> the 9 manual features -> LR (sparse) and XGBoost/LightGBM (dense) ->
+stacking meta-LR -> threshold rule, plus the evidence object including real term-ablation
+re-runs.
+
+```bash
+ml/.venv/Scripts/python.exe scripts/export-browser-model.py   # regenerate model-data
+npm run verify:engine                                          # JS vs Python parity
+npm run build                                                  # no VITE_API_BASE needed
+```
+
+`npm run verify:engine` replays 10 reviews through both implementations and compares the
+cleaned text, VADER sentiment, all 9 manual features, reference similarity, both base
+learners, the calibrated XGBoost folds and the meta-model. Agreement is ~1e-8 for the
+classifier stack; the only material difference is the embedding runtime (quantised ONNX vs
+fp32 PyTorch), which moves P(fake) by roughly 0.01 — e.g. the kettle review scores 16.7 % in
+the browser and 16.3 % through the Python service, same verdict and trust band.
+
+Trade-offs, stated plainly: the first visit downloads ~25 MB (the browser then caches the
+encoder and artifacts); history is stored in the visitor's own browser (`localStorage`,
+seeded with this project's recorded analyses) rather than shared on a server; and the
+quantised encoder is the reason probabilities can differ slightly from the Python service.
+
+To use the HTTP API instead, set `VITE_INFERENCE_MODE=server` (or a `VITE_API_BASE`
+variable) and deploy the backend below.
+
 ## Free deployment (Hugging Face Space + GitHub Pages)
 
 This is the zero-cost path and the recommended one.

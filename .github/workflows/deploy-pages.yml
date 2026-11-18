@@ -23,14 +23,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # A static host has no backend. Without VITE_API_BASE the bundle calls
-      # https://<owner>.github.io/<repo>/api, which answers GET with 404 and
-      # POST with 405, so fail here instead of publishing a broken site.
-      - name: Require VITE_API_BASE
-        if: ${{ vars.VITE_API_BASE == '' }}
+      # The static bundle runs the trained models itself (browser inference),
+      # so it needs no backend and this build cannot 404/405 on /api. Setting
+      # the VITE_API_BASE variable is still supported and switches the build to
+      # the HTTP client against a deployed Express API instead.
+      - name: Report inference mode
         run: |
-          echo "::error title=VITE_API_BASE is not set::The Pages bundle would call /api on github.io, which has no backend (404 on GET, 405 on POST). Set Settings -> Secrets and variables -> Actions -> Variables -> VITE_API_BASE = https://<your-api-host>/api, then re-run this workflow."
-          exit 1
+          if [ -n "${{ vars.VITE_API_BASE }}" ]; then
+            echo "Inference: remote API at ${{ vars.VITE_API_BASE }}"
+          else
+            echo "Inference: in-browser (trained models shipped in frontend/public/model-data)"
+          fi
 
       # npm workspaces: the only lockfile lives at the repository root.
       - uses: actions/setup-node@v4
@@ -45,7 +48,8 @@ jobs:
       - name: Build static site
         run: npm run build
         env:
-          # Optional: point the browser at a deployed API. Falls back to /api.
+          # Optional: point the browser at a deployed API instead of running the
+          # models locally. Empty = in-browser inference (the default for Pages).
           VITE_API_BASE: ${{ vars.VITE_API_BASE }}
 
       - uses: actions/configure-pages@v5

@@ -15,7 +15,8 @@
     "test": "npm test --workspace server",
     "start": "npm start --workspace server",
     "validate:render": "node scripts/validate-render-yaml.mjs render.yaml",
-    "smoke:deploy": "node scripts/smoke-render.mjs"
+    "smoke:deploy": "node scripts/smoke-render.mjs",
+    "verify:engine": "node scripts/verify-browser-engine.mjs"
   },
   "allowScripts": {
     "esbuild@0.21.5": true

@@ -6,7 +6,10 @@
 // given an absolute backend URL at build time through the GitHub Actions
 // repository variable VITE_API_BASE (baked in by
 // .github/workflows/deploy-pages.yml, which now refuses to build without it).
+import { localApi } from './local.js';
+
 const RAW_BASE = (import.meta.env.VITE_API_BASE || '').trim();
+const MODE_RAW = (import.meta.env.VITE_INFERENCE_MODE || '').trim().toLowerCase();
 
 /**
  * Accepts `https://host`, `https://host/api` and `https://host/api/` and
@@ -35,6 +38,7 @@ const STATIC_HOSTS = /(^|\.)(github\.io|githubusercontent\.com|pages\.dev|netlif
 function assertApiBaseConfigured() {
   if (!API_BASE.startsWith('/')) return;                    // absolute backend URL
   if (typeof window === 'undefined') return;                // non-browser (tests, SSR)
+  if (INFERENCE_MODE === 'local') return;                   // no HTTP at all
   if (!STATIC_HOSTS.test(window.location.hostname)) return; // Express serves /api itself
   const err = new Error(
     'No backend is configured for this build: VITE_API_BASE was empty when the site was built, '
@@ -83,7 +87,7 @@ async function request(path, options = {}) {
   return body;
 }
 
-export const api = {
+const remoteApi = {
   health: () => request('/health'),
   modelStatus: () => request('/model/status'),
   samples: () => request('/samples'),
@@ -111,3 +115,24 @@ export const api = {
   metricsLatest: () => request('/metrics/latest'),
   modelReport: () => request('/metrics/model-report')
 };
+
+/**
+ * Which inference backend this build uses:
+ *   'local'  — the trained models run in this browser (static hosting such as
+ *              GitHub Pages; needs no server and never sleeps).
+ *   'server' — the Express API is contacted over HTTP (/api or VITE_API_BASE).
+ *
+ * VITE_INFERENCE_MODE wins when set. Otherwise an absolute API base means a
+ * real backend exists, and a static host with no API base must use local
+ * inference — the alternative is requests to a file server (404/405).
+ */
+export const INFERENCE_MODE = (() => {
+  if (MODE_RAW === 'local' || MODE_RAW === 'server') return MODE_RAW;
+  if (RAW_BASE) return 'server';                 // an explicit backend wins
+  if (import.meta.env.DEV) return 'server';      // dev proxy -> Express (/api)
+  // A production build with no API address is a static deployment: the only
+  // inference that can work there is the one shipped in the bundle.
+  return 'local';
+})();
+
+export const api = INFERENCE_MODE === 'local' ? localApi : remoteApi;
