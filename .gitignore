@@ -33,3 +33,4 @@ e2e_xai.mjs
 .idea/
 .DS_Store
 Thumbs.db
+.cloud-attachments/

@@ -24,6 +24,20 @@ PV_HOSTS="${PV_HOSTS:-}"
 
 log()  { printf '[start-all] %s\n' "$*"; }
 up()   { curl -fsS -m 2 "$1" > /dev/null 2>&1; }
+
+# Python interpreter inside the ML venv: Windows layout first, then POSIX.
+# (Git Bash on Windows has no setsid, so detaching falls back to plain nohup.)
+ML_PY=""
+for c in "ml/.venv/Scripts/python.exe" "ml/.venv/bin/python"; do
+  if [ -x "$c" ]; then ML_PY="$c"; break; fi
+done
+if command -v setsid > /dev/null 2>&1; then
+  DETACH="setsid nohup"
+elif command -v nohup > /dev/null 2>&1; then
+  DETACH="nohup"
+else
+  DETACH=""
+fi
 wait_for() { # wait_for <url> <name> <timeout_s>
   local i=0
   while [ "$i" -lt "$3" ]; do
@@ -36,10 +50,10 @@ wait_for() { # wait_for <url> <name> <timeout_s>
 # ── 1. ML inference service ────────────────────────────────────────────────
 if up "$ML_HEALTH"; then
   log "ML service already healthy on :${ML_PORT}"
-elif [ -x "ml/.venv/bin/python" ]; then
+elif [ -n "$ML_PY" ]; then
   log "starting ML service (FastAPI) on :${ML_PORT}…"
-  ( cd ml && setsid nohup ./.venv/bin/python serve.py > ../fastapi.log 2>&1 < /dev/null & )
-  if wait_for "$ML_HEALTH" "ML" 90; then
+  ( cd ml && $DETACH "../${ML_PY#ml/}" serve.py >> ../fastapi.log 2>&1 < /dev/null & )
+  if wait_for "$ML_HEALTH" "ML" 240; then
     log "ML service healthy ✔"
   else
     log "ML service did NOT become healthy — see fastapi.log."
@@ -58,7 +72,7 @@ else
   ( cd server && ML_ADAPTER_MODE="${ML_ADAPTER_MODE:-python-http}" \
       ML_SERVICE_URL="${ML_SERVICE_URL:-http://127.0.0.1:${ML_PORT}/predict}" \
       BATCH_MAX_REVIEWS="${BATCH_MAX_REVIEWS:-10}" ALLOWED_ORIGINS="${ALLOWED_ORIGINS:-}" \
-      setsid nohup node src/server.js > ../express.log 2>&1 < /dev/null & )
+      $DETACH node src/server.js > ../express.log 2>&1 < /dev/null & )
   if wait_for "$API_HEALTH" "API" 30; then
     log "API healthy ✔  ($(curl -fsS -m 3 "$API_HEALTH" | tr -d '\n'))"
   else
@@ -72,7 +86,7 @@ if up "$WEB_URL"; then
 else
   log "starting Vite dev server on :${WEB_PORT}…"
   ( cd frontend && PORT="$WEB_PORT" VITE_ADDITIONAL_ALLOWED_HOSTS="$PV_HOSTS" \
-      setsid nohup npx vite > ../vite.log 2>&1 < /dev/null & )
+      $DETACH npx vite > ../vite.log 2>&1 < /dev/null & )
   if wait_for "$WEB_URL" "Vite" 30; then
     log "frontend serving ✔  →  ${WEB_URL} (preview host allowed: ${PV_HOSTS:-none})"
   else

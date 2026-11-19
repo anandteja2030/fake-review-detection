@@ -1,5 +1,7 @@
 # Explainable Fake Review Detection
 
+**Live demo — no install, no sign-up, no backend:** <https://anandteja2030.github.io/fake-review-detection/>
+
 Research application for classifying product reviews as **Fake / Genuine** with
 explainable output. Built around a hybrid NLP + stacking-ensemble ML project
 (word/char TF-IDF + Sentence-BERT + linguistic features → Logistic Regression, XGBoost,
@@ -16,7 +18,7 @@ LightGBM → Logistic Regression meta-model).
 ## Stack
 - **Frontend** — React 18 + Vite + React Router + Recharts, dark/light theme, responsive
 - **Backend** — Node + Express, ML adapter layer, JSON file persistence (optional MongoDB mirror on hosted deploys — see *Deploy verification*)
-- **Tests** — `node:test` suite (75 tests, all passing): API contract, batch/evidence
+- **Tests** — `node:test` suite (80 tests, all passing): API contract, batch/evidence
   validation, ML transport (timeouts, bounded retries, no local spawn for a remote
   service), history persistence and Render blueprint rules — including determinism and
   no-fabricated-prediction assertions
